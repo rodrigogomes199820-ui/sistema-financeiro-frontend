@@ -1,0 +1,128 @@
+<div class="container">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">PAINEL FINANCEIRO</span>
+      <h1>Bem-vindo<span *ngIf="nomeUsuario">, {{ nomeUsuario }}</span>!</h1>
+      <p>Veja como estão suas finanças e acompanhe suas movimentações.</p>
+    </div>
+    <div class="atalhos">
+      <a mat-stroked-button routerLink="/receitas">
+        <mat-icon>trending_up</mat-icon>
+        Receitas
+      </a>
+      <button mat-raised-button color="primary" type="button" (click)="adicionarDespesa()">
+        <mat-icon>add</mat-icon>
+        Adicionar despesa
+      </button>
+      <a mat-stroked-button routerLink="/despesas">
+        <mat-icon>trending_down</mat-icon>
+        Ver despesas
+      </a>
+    </div>
+  </header>
+
+  <p class="carregando" *ngIf="carregando">Carregando seu resumo financeiro...</p>
+
+  <ng-container *ngIf="!carregando">
+    <section class="resumo">
+      <article class="saldo-card" aria-label="Saldo disponível">
+        <div class="saldo-card-topo">
+          <div>
+          <span class="saldo-label">Saldo disponível em {{ periodoAtualLabel }}</span>
+            <strong class="saldo-valor" [class.saldo-negativo]="saldoDisponivel < 0">
+              {{ saldoDisponivel | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </strong>
+          </div>
+          <span class="icone-cartao"><mat-icon>credit_card</mat-icon></span>
+        </div>
+        <span class="saldo-legenda" *ngIf="salarioConsideradoAutomaticamente">
+          Inclui o salário mensal salvo, sem criar um novo lançamento.
+        </span>
+        <span class="saldo-legenda" *ngIf="!salarioConsideradoAutomaticamente">
+          Receitas do mês menos despesas do mês.
+        </span>
+      </article>
+
+      <article class="indicador indicador-receitas">
+        <div class="indicador-topo">
+          <span class="indicador-icone"><mat-icon>south_west</mat-icon></span>
+          <span class="indicador-label">Receitas</span>
+        </div>
+        <strong>{{ totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+        <a routerLink="/receitas">Ver receitas <mat-icon>arrow_forward</mat-icon></a>
+      </article>
+
+      <article class="indicador indicador-despesas">
+        <div class="indicador-topo">
+          <span class="indicador-icone"><mat-icon>north_east</mat-icon></span>
+          <span class="indicador-label">Despesas</span>
+        </div>
+        <strong>{{ totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+        <a routerLink="/despesas">Ver despesas <mat-icon>arrow_forward</mat-icon></a>
+      </article>
+    </section>
+
+    <section class="grafico-section" aria-labelledby="grafico-titulo">
+      <header class="secao-header">
+        <div>
+          <h2 id="grafico-titulo">Receitas e despesas</h2>
+          <p>Comparativo dos últimos seis meses.</p>
+        </div>
+        <div class="legenda-grafico" aria-label="Legenda do gráfico">
+          <span><i class="legenda-receita"></i>Receitas</span>
+          <span><i class="legenda-despesa"></i>Despesas</span>
+        </div>
+      </header>
+
+      <div class="grafico-barras" role="img" aria-label="Gráfico de barras comparando receitas e despesas por mês">
+        <div class="grupo-mes" *ngFor="let mes of resumoMensal">
+          <div class="barras">
+            <span
+              class="barra barra-receita"
+              [style.height.%]="mes.receitasAltura"
+              [attr.title]="'Receitas em ' + mes.rotulo + ': ' + (mes.receitas | currency:'BRL':'symbol':'1.2-2':'pt-BR')"
+            ></span>
+            <span
+              class="barra barra-despesa"
+              [style.height.%]="mes.despesasAltura"
+              [attr.title]="'Despesas em ' + mes.rotulo + ': ' + (mes.despesas | currency:'BRL':'symbol':'1.2-2':'pt-BR')"
+            ></span>
+          </div>
+          <span class="rotulo-mes">{{ mes.rotulo }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="movimentacoes">
+      <header class="secao-header">
+        <div>
+          <h2>Movimentações recentes</h2>
+          <p>As últimas receitas e despesas cadastradas.</p>
+        </div>
+      </header>
+
+      <div class="lista-movimentacoes" *ngIf="movimentacoesRecentes.length; else semMovimentacoes">
+        <article class="movimentacao" *ngFor="let item of movimentacoesRecentes">
+          <span class="movimentacao-icone" [class.icone-receita]="item.tipo === 'receita'" [class.icone-despesa]="item.tipo === 'despesa'">
+            <mat-icon>{{ item.tipo === 'receita' ? 'south_west' : 'north_east' }}</mat-icon>
+          </span>
+          <div class="movimentacao-info">
+            <strong>{{ item.titulo }}</strong>
+            <span>{{ item.detalhe }} · {{ item.data | date:'dd/MM/yyyy':'UTC' }}</span>
+          </div>
+          <strong class="movimentacao-valor" [class.valor-receita]="item.tipo === 'receita'" [class.valor-despesa]="item.tipo === 'despesa'">
+            {{ item.tipo === 'receita' ? '+' : '−' }} {{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </strong>
+        </article>
+      </div>
+
+      <ng-template #semMovimentacoes>
+        <div class="estado-vazio">
+          <mat-icon>receipt_long</mat-icon>
+          <strong>Nenhuma movimentação por enquanto</strong>
+          <span>Cadastre uma receita ou despesa para acompanhar seu saldo aqui.</span>
+        </div>
+      </ng-template>
+    </section>
+  </ng-container>
+</div>

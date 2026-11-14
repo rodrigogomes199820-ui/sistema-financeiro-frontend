@@ -1,0 +1,72 @@
+.dialog-container {
+  display: flex;
+  max-height: calc(100dvh - 24px);
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tolba {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #16834a;
+  color: #fff;
+}
+
+.tolba button { color: #fff; }
+
+.formulario {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.formulario mat-form-field { width: 100%; }
+
+.formulario input { font-size: 16px; }
+
+.formulario ::ng-deep .botao-cadastrar.mat-mdc-raised-button {
+  --mdc-protected-button-container-color: #16834a;
+  --mdc-protected-button-label-text-color: #fff;
+}
+
+.formulario ::ng-deep .mat-mdc-text-field-wrapper,
+.formulario ::ng-deep .mat-mdc-form-field-flex {
+  height: 65px;
+}
+
+.formulario ::ng-deep .mat-mdc-form-field-flex { align-items: center; }
+
+.formulario ::ng-deep .mat-mdc-form-field-infix {
+  display: flex;
+  min-height: 65px;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+mat-dialog-actions {
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+  margin: 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+@media (max-width: 480px) {
+  .formulario { padding: 16px; }
+  mat-dialog-actions button { flex: 1 1 auto; }
+}
+
+.texto-confirmacao {
+  margin: 0 0 12px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #ff9800;
+  color: #fff;
+}

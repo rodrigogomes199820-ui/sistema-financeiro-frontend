@@ -1,0 +1,92 @@
+
+<div class="container">
+
+  <div class="box-text">
+    <div class="text">
+      <h1>Crie uma nova senha.</h1>
+
+      <p>
+        Informe sua nova senha para recuperar o acesso à sua conta.
+      </p>
+    </div>
+
+    <div class="box-img">
+      <img
+        src="assets/recuperação.png"
+        alt="Ilustração de controle financeiro"
+      />
+    </div>
+  </div>
+
+  <form
+    class="form-login"
+    [formGroup]="redefinirSenhaForm"
+    (ngSubmit)="redefinirSenha()"
+  >
+
+    <h2>Redefinir senha</h2>
+
+    <p>Escolha uma nova senha.</p>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nova senha</mat-label>
+
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        placeholder="Digite sua nova senha"
+      />
+
+      <mat-error *ngIf="redefinirSenhaForm.get('password')?.hasError('required')">
+        Informe sua nova senha.
+      </mat-error>
+
+      <mat-error *ngIf="redefinirSenhaForm.get('password')?.hasError('minlength')">
+        A senha deve ter pelo menos 8 caracteres.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Confirmar senha</mat-label>
+
+      <input
+        matInput
+        type="password"
+        formControlName="confirmPassword"
+        placeholder="Confirme sua nova senha"
+      />
+
+      <mat-error *ngIf="redefinirSenhaForm.get('confirmPassword')?.hasError('required')">
+        Confirme sua senha.
+      </mat-error>
+    </mat-form-field>
+
+    <p
+      class="error-message"
+      *ngIf="
+        redefinirSenhaForm.hasError('passwordMismatch') &&
+        redefinirSenhaForm.get('confirmPassword')?.touched
+      "
+    >
+      As senhas não coincidem.
+    </p>
+
+    <button
+      mat-raised-button
+      class="btn-cana"
+      type="submit"
+      [disabled]="redefinirSenhaForm.invalid || carregando"
+    >
+      Redefinir senha
+    </button>
+
+    <div class="register">
+      <a mat-button color="primary" routerLink="/login">
+        Voltar para o login
+      </a>
+    </div>
+
+  </form>
+
+</div>

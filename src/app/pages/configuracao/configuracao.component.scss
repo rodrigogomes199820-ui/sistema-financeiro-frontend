@@ -1,0 +1,51 @@
+.container { min-height: 100%; padding: 24px; background: #f5f7f6; }
+
+.page-header {
+  margin-bottom: 20px;
+  padding: 24px 28px;
+  border: 1px solid #e8eeea;
+  border-radius: 14px;
+  background: #fff;
+
+  h1 { margin: 5px 0 6px; color: #172b22; font-size: 27px; font-weight: 600; }
+  p { margin: 0; color: #718078; font-size: 14px; }
+}
+
+.eyebrow { color: #16834a; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; }
+.carregando { padding: 24px; color: #718078; text-align: center; }
+
+.config-card {
+  margin-bottom: 18px;
+  padding: 24px 28px;
+  border: 1px solid #e8eeea;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.card-header { display: flex; align-items: center; gap: 13px; margin-bottom: 22px; }
+.card-header h2 { margin: 0 0 5px; color: #172b22; font-size: 17px; font-weight: 600; }
+.card-header p { margin: 0; color: #718078; font-size: 12px; line-height: 1.5; }
+.card-icon { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 12px; background: #eaf4ec; color: #16834a; }
+.card-icon mat-icon { width: 22px; height: 22px; font-size: 22px; }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; row-gap: 2px; }
+.form-grid mat-form-field, .campo-senha-atual { width: 100%; }
+.campo-senha-atual { max-width: calc(50% - 9px); }
+.form-actions { display: flex; justify-content: flex-end; margin-top: 4px; }
+.form-actions button { min-height: 42px; border-radius: 8px; }
+.form-actions mat-icon { margin-right: 4px; }
+
+.danger-card { border-color: #f1d9d6; }
+.danger-card .card-icon { background: #fff0ee; color: #bd3c3c; }
+.danger-card .card-header h2 { color: #a83832; }
+
+.carregando + ng-container { display: block; }
+
+@media (max-width: 700px) {
+  .container { padding: 14px; }
+  .page-header, .config-card { padding: 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .campo-senha-atual { max-width: 100%; }
+  .form-actions { justify-content: stretch; }
+  .form-actions button { width: 100%; }
+}

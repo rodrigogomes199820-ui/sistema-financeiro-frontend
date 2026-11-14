@@ -1,0 +1,94 @@
+<div class="container">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">SUAS MOVIMENTAÇÕES</span>
+      <h1>Histórico</h1>
+      <p>Consulte todas as receitas e despesas registradas.</p>
+    </div>
+  </header>
+
+  <section class="totais" *ngIf="!carregando">
+    <article class="total-card">
+      <span>Receitas no histórico</span>
+      <strong class="receita">{{ totalReceitas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+    </article>
+    <article class="total-card">
+      <span>Despesas no histórico</span>
+      <strong class="despesa">{{ totalDespesas | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+    </article>
+    <article class="total-card">
+      <span>Lançamentos</span>
+      <strong>{{ movimentacoes.length }}</strong>
+    </article>
+  </section>
+
+  <section class="historico-card">
+    <div class="filtros">
+      <label class="busca">
+        <mat-icon>search</mat-icon>
+        <input type="search" placeholder="Buscar por descrição" [value]="termoBusca" (input)="termoBusca = $any($event.target).value" />
+      </label>
+
+      <mat-form-field appearance="outline" class="filtro-tipo">
+        <mat-label>Tipo de lançamento</mat-label>
+        <mat-select [value]="tipoFiltro" (selectionChange)="tipoFiltro = $event.value">
+          <mat-option value="todas">Todas</mat-option>
+          <mat-option value="receita">Receitas</mat-option>
+          <mat-option value="despesa">Despesas</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filtro-data">
+        <mat-label>Mês</mat-label>
+        <mat-select [value]="mesFiltro" (selectionChange)="mesFiltro = $event.value">
+          <mat-option [value]="null">Todos</mat-option>
+          <mat-option *ngFor="let mes of meses" [value]="mes.valor">{{ mes.nome }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filtro-data">
+        <mat-label>Ano</mat-label>
+        <mat-select [value]="anoFiltro" (selectionChange)="anoFiltro = $event.value">
+          <mat-option [value]="null">Todos</mat-option>
+          <mat-option *ngFor="let ano of anosDisponiveis" [value]="ano">{{ ano }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <p class="carregando" *ngIf="carregando">Carregando histórico...</p>
+
+    <div class="table-wrapper" *ngIf="!carregando && movimentacoesFiltradas.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Movimentação</th>
+            <th>Tipo</th>
+            <th>Data</th>
+            <th class="valor-heading">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of movimentacoesFiltradas">
+            <td class="descricao">
+              <span class="tipo-icone" [class.icone-receita]="item.tipo === 'receita'" [class.icone-despesa]="item.tipo === 'despesa'">
+                <mat-icon>{{ item.tipo === 'receita' ? 'south_west' : 'north_east' }}</mat-icon>
+              </span>
+              <strong>{{ item.titulo }}</strong>
+            </td>
+            <td><span class="tipo-label" [class.receita]="item.tipo === 'receita'" [class.despesa]="item.tipo === 'despesa'">{{ item.descricao }}</span></td>
+            <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
+            <td class="valor" [class.receita]="item.tipo === 'receita'" [class.despesa]="item.tipo === 'despesa'">
+              {{ item.tipo === 'receita' ? '+' : '−' }} {{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="estado-vazio" *ngIf="!carregando && movimentacoesFiltradas.length === 0">
+      <mat-icon>manage_search</mat-icon>
+      <strong>{{ movimentacoes.length ? 'Nenhum lançamento encontrado' : 'Seu histórico está vazio' }}</strong>
+      <span>{{ movimentacoes.length ? 'Altere a busca ou o tipo selecionado.' : 'As receitas e despesas cadastradas aparecerão aqui.' }}</span>
+    </div>
+  </section>
+</div>

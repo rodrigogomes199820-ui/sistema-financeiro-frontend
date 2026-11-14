@@ -1,0 +1,45 @@
+<div class="dialog-container">
+  <mat-toolbar class="tolba">
+    <span>{{ data.modo === 'criar' ? 'Adicionar despesa' : data.modo === 'editar' ? 'Editar despesa' : 'Excluir despesa' }}</span>
+    <button mat-icon-button type="button" (click)="fechar()" aria-label="Fechar diálogo">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <form class="formulario" *ngIf="data.modo !== 'excluir'" [formGroup]="despesaForm" (ngSubmit)="salvar()">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome da despesa</mat-label>
+      <input matInput formControlName="nome" maxlength="100" />
+      <mat-error *ngIf="despesaForm.get('nome')?.hasError('required')">Informe o nome da despesa.</mat-error>
+      <mat-error *ngIf="despesaForm.get('nome')?.hasError('maxlength')">Use até 100 caracteres.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <span matTextPrefix>R$&nbsp;</span>
+      <input matInput type="text" inputmode="decimal" formControlName="valor" autocomplete="off" />
+      <mat-error *ngIf="despesaForm.get('valor')?.hasError('required')">Informe o valor.</mat-error>
+      <mat-error *ngIf="despesaForm.get('valor')?.hasError('pattern')">Informe um valor válido.</mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button mat-stroked-button type="button" (click)="fechar()">Cancelar</button>
+      <button mat-raised-button class="botao-cadastrar" type="submit" [disabled]="despesaForm.invalid">
+        <mat-icon>check</mat-icon>
+        {{ data.modo === 'criar' ? 'Cadastrar despesa' : 'Salvar alterações' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+
+  <div class="formulario" *ngIf="data.modo === 'excluir'">
+    <p class="texto-confirmacao">Deseja realmente excluir esta despesa?</p>
+    <strong>{{ data.despesa?.nome }} — {{ data.despesa?.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+    <mat-dialog-actions align="end">
+      <button mat-stroked-button type="button" (click)="fechar()">Cancelar</button>
+      <button mat-raised-button color="warn" type="button" (click)="confirmarExclusao()">
+        <mat-icon>delete_outline</mat-icon>
+        Excluir
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+
+<div class="container">
+
+  <div class="box-text">
+
+    <div class="text">
+      <h1>Um jeito novo de organizar suas finanças.</h1>
+      <p>Tenha controle das suas receitas e despesas em um só lugar.</p>
+    </div>
+
+    <div class="box-img">
+      <img
+        src="../../../assets/Ilustração 3D de finanças digitais.png"
+        alt="Ilustração de controle financeiro"
+      />
+    </div>
+
+  </div>
+
+  <form class="form-login" [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <h2>Bem-vindo de volta!</h2>
+    <p>Entre na sua conta para continuar.</p>
+
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="Digite seu e-mail"
+        formControlName="email"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input
+        matInput
+        type="password"
+        placeholder="Digite sua senha"
+        formControlName="password"
+      />
+    </mat-form-field>
+
+    <div class="forgot-password" color="primary">
+  <a routerLink="/recuperar-senha">Esqueceu sua senha?</a>
+</div>
+
+    <button mat-raised-button class="btn-cana" type="submit" [disabled]="loginForm.invalid">
+      Entrar
+    </button>
+
+    <div class="register">
+      <span>Não tem uma conta?</span>
+      <a routerLink="/cadastro">Cadastre-se</a>
+    </div>
+
+  </form>
+
+</div>

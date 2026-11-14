@@ -1,0 +1,138 @@
+<mat-toolbar class="navbar">
+  <button
+    mat-icon-button
+    class="menu-toggle"
+    type="button"
+    (click)="toggleMenu()"
+    aria-label="Abrir ou fechar menu"
+  >
+    <mat-icon>{{ menuButton ? 'menu_open' : 'menu' }}</mat-icon>
+  </button>
+
+  <span class="brand-mark"><mat-icon>account_balance_wallet</mat-icon></span>
+  <span class="brand">OpenFinance</span>
+  <span class="spacer"></span>
+
+  <div class="notification-wrapper">
+    <button
+      mat-icon-button
+      class="notification-button"
+      type="button"
+      aria-label="Notificações"
+      [attr.aria-expanded]="notificacoesAbertas"
+      (click)="alternarNotificacoes()"
+    >
+      <mat-icon>notifications</mat-icon>
+      <span class="notification-badge" *ngIf="notificacoesNaoLidas > 0">
+        {{ notificacoesNaoLidas > 9 ? '9+' : notificacoesNaoLidas }}
+      </span>
+    </button>
+
+    <section class="notification-panel" *ngIf="notificacoesAbertas" aria-label="Central de notificações">
+      <header class="notification-panel-header">
+        <div>
+          <h2>Notificações</h2>
+          <span>{{ notificacoesNaoLidas }} não lida(s)</span>
+        </div>
+        <button mat-icon-button type="button" aria-label="Fechar notificações" (click)="alternarNotificacoes()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </header>
+
+      <div class="notification-actions" *ngIf="notificacoes.length > 0">
+        <button type="button" (click)="marcarTodasComoLidas()">Marcar todas como lidas</button>
+        <button type="button" (click)="limparNotificacoes()">Limpar</button>
+      </div>
+
+      <div class="notification-list" *ngIf="notificacoes.length > 0; else semNotificacoes">
+        <button
+          class="notification-item"
+          type="button"
+          *ngFor="let notificacao of notificacoes"
+          [class.notification-unread]="!notificacao.lida"
+          (click)="marcarNotificacaoComoLida(notificacao)"
+        >
+          <span
+            class="notification-item-icon"
+            [class.notification-icon-error]="notificacao.tipo === 'error'"
+            [class.notification-icon-warning]="notificacao.tipo === 'warning'"
+          >
+            <mat-icon>{{ notificacao.tipo === 'success' ? 'check_circle' : notificacao.tipo === 'warning' ? 'warning_amber' : 'error_outline' }}</mat-icon>
+          </span>
+          <span class="notification-item-content">
+            <strong>{{ notificacao.titulo }}</strong>
+            <span>{{ notificacao.mensagem }}</span>
+            <small>{{ notificacao.data | date:'dd/MM/yyyy HH:mm' }}</small>
+          </span>
+          <i *ngIf="!notificacao.lida" class="notification-unread-dot"></i>
+        </button>
+      </div>
+
+      <ng-template #semNotificacoes>
+        <div class="notification-empty">
+          <mat-icon>notifications_none</mat-icon>
+          <strong>Nenhuma notificação</strong>
+          <span>As mensagens de sucesso e erro aparecerão aqui.</span>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+
+  <button
+    class="notification-backdrop"
+    *ngIf="notificacoesAbertas"
+    type="button"
+    aria-label="Fechar central de notificações"
+    (click)="alternarNotificacoes()"
+  ></button>
+
+  <button mat-button class="logout-button" type="button" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sair</span>
+  </button>
+</mat-toolbar>
+
+<div class="layout-container" [class.sidebar-open]="menuButton">
+  <button
+    class="sidebar-backdrop"
+    *ngIf="menuButton"
+    type="button"
+    aria-label="Fechar menu"
+    (click)="toggleMenu()"
+  ></button>
+
+  <aside class="sidebar" [class.sidebar-closed]="!menuButton">
+    <nav class="sidebar-menu" aria-label="Navegação principal">
+      <a routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenuEmTelaPequena()">
+        <mat-icon>home</mat-icon>
+        <span>Início</span>
+      </a>
+
+      <a routerLink="/receitas" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenuEmTelaPequena()">
+        <mat-icon>trending_up</mat-icon>
+        <span>Receitas</span>
+      </a>
+
+      <a routerLink="/despesas" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenuEmTelaPequena()">
+        <mat-icon>trending_down</mat-icon>
+        <span>Despesas</span>
+      </a>
+
+      <a routerLink="/historico" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenuEmTelaPequena()">
+        <mat-icon>history</mat-icon>
+        <span>Histórico</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/configuracao" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="fecharMenuEmTelaPequena()">
+        <mat-icon>settings</mat-icon>
+        <span>Configurações</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

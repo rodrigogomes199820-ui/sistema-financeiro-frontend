@@ -1,0 +1,48 @@
+<div class="container">
+  <header class="header">
+    <div>
+      <h1>Despesas</h1>
+      <p>Registre seus gastos e acompanhe para onde vai seu dinheiro.</p>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="adicionarDespesa()">
+      <mat-icon>add</mat-icon>
+      Nova despesa
+    </button>
+  </header>
+
+  <section class="historico">
+    <h2>Despesas cadastradas</h2>
+    <div class="table-wrapper" *ngIf="despesas.length > 0; else semDespesas">
+      <table>
+        <thead>
+          <tr><th>Despesa</th><th>Data</th><th class="valor-heading">Valor</th><th class="acoes-heading">Ações</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of despesas">
+            <td>{{ item.nome }}</td>
+            <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
+            <td class="valor">{{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+            <td class="acoes">
+              <button mat-icon-button [matMenuTriggerFor]="menuDespesa" aria-label="Opções da despesa">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menuDespesa="matMenu">
+                <button mat-menu-item (click)="editarDespesa(item)">
+                  <mat-icon>drive_file_rename_outline</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="excluirDespesa(item)">
+                  <mat-icon>delete_outline</mat-icon>
+                  <span>Excluir</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #semDespesas>
+      <p class="sem-despesas">Suas despesas cadastradas aparecerão aqui.</p>
+    </ng-template>
+  </section>
+</div>

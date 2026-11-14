@@ -1,0 +1,67 @@
+<div class="container">
+  <header class="header">
+    <div>
+      <h1>Receitas</h1>
+      <p>Cadastre seu salário e outras entradas de dinheiro.</p>
+    </div>
+    <button mat-raised-button color="primary" type="button" (click)="adicionarReceita()">
+      <mat-icon>add</mat-icon>
+      Nova receita
+    </button>
+  </header>
+
+  <div class="content">
+    <section class="historico">
+      <h3>Últimos recebimentos</h3>
+
+      <ng-container *ngIf="receitas.length > 0; else semReceitas">
+        <div class="receita-item" *ngFor="let item of receitas">
+          <div class="receita-info">
+            <strong>{{ item.categoria }}</strong>
+            <p>{{ item.dataRecebimento | date:'dd/MM/yyyy':'UTC' }}</p>
+            <small *ngIf="item.observacao">{{ item.observacao }}</small>
+          </div>
+
+          <div class="receita-valor">
+            {{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+          </div>
+
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menuReceita"
+            aria-label="Opções da receita"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menuReceita="matMenu">
+            <button mat-menu-item (click)="editarReceita(item)">
+              <mat-icon>drive_file_rename_outline</mat-icon>
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item (click)="excluirReceita(item)">
+              <mat-icon>delete_outline</mat-icon>
+              <span>Excluir</span>
+            </button>
+          </mat-menu>
+        </div>
+      </ng-container>
+
+      <ng-template #semReceitas>
+        <p class="sem-receitas">Seus recebimentos aparecerão aqui.</p>
+      </ng-template>
+    </section>
+
+    <aside class="cards">
+      <div class="notificatiom">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <h3>Organize suas receitas</h3>
+        <p>
+          Cadastre seu salário e outras entradas para acompanhar
+          quanto dinheiro entra na sua casa e organizar melhor
+          suas despesas.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>

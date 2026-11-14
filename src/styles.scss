@@ -1,1 +1,110 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.notification-success,
+.notification-error,
+.notification-warning {
+  --mdc-snackbar-container-color: transparent;
+}
+
+
+.notification-success .mdc-snackbar__surface,
+.notification-error .mdc-snackbar__surface,
+.notification-warning .mdc-snackbar__surface {
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff !important;
+}
+
+
+.notification-success .mdc-snackbar__label,
+.notification-success .mat-mdc-button,
+.notification-error .mdc-snackbar__label,
+.notification-error .mat-mdc-button,
+.notification-warning .mdc-snackbar__label,
+.notification-warning .mat-mdc-button {
+  position: relative;
+  z-index: 2;
+}
+
+
+.notification-success {
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.notification-success .mdc-snackbar__surface::before {
+  background-color: #198754;
+  animation: fill-success 3s linear forwards;
+}
+
+
+.notification-error {
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.notification-warning {
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #ffffff;
+}
+
+.notification-error .mdc-snackbar__surface::before {
+  background-color: #dc3545;
+  animation: fill-error 4s linear forwards;
+}
+
+.notification-warning .mdc-snackbar__surface::before {
+  background-color: #c98218;
+  animation: fill-warning 5s linear forwards;
+}
+
+
+.notification-success .mdc-snackbar__surface::before,
+.notification-error .mdc-snackbar__surface::before,
+.notification-warning .mdc-snackbar__surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 1;
+}
+
+@keyframes fill-success {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fill-error {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fill-warning {
+  to {
+    transform: scaleX(1);
+  }
+}
