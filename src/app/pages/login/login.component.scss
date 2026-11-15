@@ -177,6 +177,13 @@
   }
 }
 
+.btn-cana.is-loading:disabled {
+  background-color: #79A83B !important;
+  color: #ffffff !important;
+  opacity: 0.85;
+  cursor: progress;
+}
+
 .button-spinner {
   width: 18px;
   height: 18px;
