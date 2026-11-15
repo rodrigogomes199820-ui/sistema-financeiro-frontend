@@ -107,6 +107,31 @@ export class DialogReceitaComponent {
     this.dialogRef.close();
   }
 
+  formatarDataAoDigitar(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const digitosAntesDoCursor = input.value
+      .slice(0, input.selectionStart ?? input.value.length)
+      .replace(/\D/g, '').length;
+    const digitos = input.value.replace(/\D/g, '').slice(0, 8);
+
+    let dataFormatada = digitos;
+    if (digitos.length > 2) {
+      dataFormatada = `${digitos.slice(0, 2)}/${digitos.slice(2)}`;
+    }
+    if (digitos.length > 4) {
+      dataFormatada = `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`;
+    }
+
+    const posicaoCursor = this.posicaoAposDigitos(
+      dataFormatada,
+      Math.min(digitosAntesDoCursor, digitos.length)
+    );
+
+    this.receitaForm.get('dataRecebimento')?.setValue(dataFormatada, { emitEvent: false });
+    input.value = dataFormatada;
+    input.setSelectionRange(posicaoCursor, posicaoCursor);
+  }
+
   private formatarDataBrasileira(data: Date | string): string {
     const dataRecebimento = data instanceof Date ? data : new Date(data);
     if (Number.isNaN(dataRecebimento.getTime())) return '';
@@ -130,5 +155,19 @@ export class DialogReceitaComponent {
       data.getDate() === dia
       ? data
       : null;
+  }
+
+  private posicaoAposDigitos(valor: string, quantidadeDigitos: number): number {
+    if (quantidadeDigitos === 0) return 0;
+
+    let digitosEncontrados = 0;
+    for (let indice = 0; indice < valor.length; indice += 1) {
+      if (/\d/.test(valor[indice])) {
+        digitosEncontrados += 1;
+        if (digitosEncontrados === quantidadeDigitos) return indice + 1;
+      }
+    }
+
+    return valor.length;
   }
 }
