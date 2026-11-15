@@ -74,10 +74,21 @@
 
           <input
             matInput
-            type="password"
+            [type]="mostrarSenha ? 'text' : 'password'"
             placeholder="Digite sua senha"
             formControlName="password"
           />
+          <button
+            mat-icon-button
+            matSuffix
+            class="toggle-password"
+            type="button"
+            [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+            [attr.aria-pressed]="mostrarSenha"
+            (click)="mostrarSenha = !mostrarSenha"
+          >
+            <mat-icon>{{ mostrarSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
 
           <mat-error *ngIf="cadastroForm.get('password')?.hasError('required')">
             Informe sua senha.
@@ -89,10 +100,21 @@
 
           <input
             matInput
-            type="password"
+            [type]="mostrarConfirmacaoSenha ? 'text' : 'password'"
             placeholder="Confirme sua senha"
             formControlName="confirmPassword"
           />
+          <button
+            mat-icon-button
+            matSuffix
+            class="toggle-password"
+            type="button"
+            [attr.aria-label]="mostrarConfirmacaoSenha ? 'Ocultar confirmação de senha' : 'Mostrar confirmação de senha'"
+            [attr.aria-pressed]="mostrarConfirmacaoSenha"
+            (click)="mostrarConfirmacaoSenha = !mostrarConfirmacaoSenha"
+          >
+            <mat-icon>{{ mostrarConfirmacaoSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
 
           <mat-error *ngIf="cadastroForm.get('confirmPassword')?.hasError('required')">
             Confirme sua senha.

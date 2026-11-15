@@ -36,10 +36,21 @@
       <mat-label>Senha</mat-label>
       <input
         matInput
-        type="password"
+        [type]="mostrarSenha ? 'text' : 'password'"
         placeholder="Digite sua senha"
         formControlName="password"
       />
+      <button
+        mat-icon-button
+        matSuffix
+        class="toggle-password"
+        type="button"
+        [attr.aria-label]="mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'"
+        [attr.aria-pressed]="mostrarSenha"
+        (click)="mostrarSenha = !mostrarSenha"
+      >
+        <mat-icon>{{ mostrarSenha ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
 
     <div class="forgot-password" color="primary">

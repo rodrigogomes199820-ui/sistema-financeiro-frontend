@@ -15,6 +15,7 @@ import { finalize } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  mostrarSenha = false;
 
   constructor(
     private fb: FormBuilder,

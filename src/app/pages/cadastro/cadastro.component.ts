@@ -21,6 +21,8 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class CadastroComponent implements OnInit {
 
   cadastroForm!: FormGroup;
+  mostrarSenha = false;
+  mostrarConfirmacaoSenha = false;
 
   constructor(
     private fb: FormBuilder,
