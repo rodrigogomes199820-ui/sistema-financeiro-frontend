@@ -12,16 +12,17 @@
     <form [formGroup]="receitaForm" (ngSubmit)="salvar()">
       <mat-form-field appearance="outline">
         <mat-label>Valor da receita</mat-label>
-        <span matTextPrefix>R$&nbsp;</span>
-        <input matInput type="text" inputmode="decimal" placeholder="0,00" formControlName="valor" autocomplete="off" />
+        <span matTextPrefix class="prefixo-moeda">R$</span>
+        <input matInput type="text" inputmode="decimal" formControlName="valor" autocomplete="off" />
         <mat-error *ngIf="receitaForm.get('valor')?.hasError('required')">Informe o valor.</mat-error>
         <mat-error *ngIf="receitaForm.get('valor')?.hasError('pattern')">Informe um valor válido.</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Data de recebimento</mat-label>
-        <input matInput type="date" formControlName="dataRecebimento" />
+        <mat-label>Data de recebimento (dd/mm/aaaa)</mat-label>
+        <input matInput type="text" inputmode="numeric" formControlName="dataRecebimento" maxlength="10" />
         <mat-error *ngIf="receitaForm.get('dataRecebimento')?.hasError('required')">Informe a data de recebimento.</mat-error>
+        <mat-error *ngIf="receitaForm.get('dataRecebimento')?.hasError('dataInvalida')">Informe uma data válida no formato dd/mm/aaaa.</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -37,25 +38,36 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Observação</mat-label>
-        <textarea matInput rows="3" placeholder="Ex.: salário mensal, abono salarial..." formControlName="observacao"></textarea>
+        <textarea matInput rows="3" formControlName="observacao"></textarea>
       </mat-form-field>
 
-      <button type="submit" mat-raised-button color="primary" [disabled]="receitaForm.invalid">
-        <mat-icon>check</mat-icon>
-        {{ data.modo === 'criar' ? 'Cadastrar receita' : 'Salvar alterações' }}
+      <button
+        type="submit"
+        mat-raised-button
+        class="botao-adicionar"
+        [disabled]="receitaForm.invalid"
+      >
+        {{ data.modo === 'criar' ? 'Adicionar' : 'Salvar alterações' }}
       </button>
     </form>
   </div>
 
-  <div class="formulario" *ngIf="data.modo === 'excluir'">
-    <p class="texto-confirmacao">Deseja realmente excluir esta receita?</p>
-    <strong>{{ data.receita?.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+  <div class="formulario formulario-exclusao" *ngIf="data.modo === 'excluir'">
+    <div class="texto-confirmacao">
+      <mat-icon aria-hidden="true">warning_amber</mat-icon>
+      <p>Tem certeza de que deseja excluir esta receita?</p>
+    </div>
+    <div class="detalhe-exclusao">
+      <span>Categoria</span>
+      <strong>{{ data.receita?.categoria }}</strong>
+      <span>Valor</span>
+      <strong>{{ data.receita?.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+    </div>
   </div>
 
-  <mat-dialog-actions align="center">
+  <mat-dialog-actions align="center" [class.acoes-exclusao]="data.modo === 'excluir'">
     <button mat-stroked-button color="primary" type="button" (click)="fechar()">Voltar</button>
-    <button *ngIf="data.modo === 'excluir'" mat-raised-button color="warn" type="button" (click)="confirmarExclusao()">
-      <mat-icon>delete_outline</mat-icon>
+    <button *ngIf="data.modo === 'excluir'" mat-raised-button class="botao-excluir" type="button" (click)="confirmarExclusao()">
       Excluir
     </button>
   </mat-dialog-actions>

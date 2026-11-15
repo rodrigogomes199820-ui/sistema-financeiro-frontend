@@ -30,11 +30,63 @@
   width: 100%;
 }
 
-.texto-confirmacao{
- background-color: #ff9800;
-    color: #fff;
-    padding: 10px;
-      border-radius: 6px;
+.formulario ::ng-deep .prefixo-moeda { margin-right: 8px; }
+
+.formulario ::ng-deep .botao-adicionar.mat-mdc-raised-button {
+  --mdc-protected-button-container-color: #16834a;
+  --mdc-protected-button-label-text-color: #fff;
+}
+
+.texto-confirmacao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #f3c6c2;
+  border-left: 4px solid #b42318;
+  border-radius: 8px;
+  background: #fff5f4;
+  color: #7a271a;
+}
+
+.texto-confirmacao mat-icon {
+  flex: 0 0 auto;
+  color: #b42318;
+}
+
+.texto-confirmacao p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.detalhe-exclusao {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  padding: 16px;
+  border: 1px solid #e8eeea;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.detalhe-exclusao span {
+  color: #718078;
+  font-size: 13px;
+}
+
+.detalhe-exclusao strong {
+  overflow-wrap: anywhere;
+  color: #263b30;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.acoes-exclusao { justify-content: flex-end; }
+
+.acoes-exclusao ::ng-deep .botao-excluir.mat-mdc-raised-button {
+  --mdc-protected-button-container-color: #b42318;
+  --mdc-protected-button-label-text-color: #fff;
 }
 
 mat-dialog-actions {

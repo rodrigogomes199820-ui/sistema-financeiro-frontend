@@ -8,7 +8,7 @@
 
   <form class="formulario" *ngIf="data.modo !== 'excluir'" [formGroup]="despesaForm" (ngSubmit)="salvar()">
     <mat-form-field appearance="outline">
-      <mat-label>Nome da despesa</mat-label>
+      <mat-label>Despesas</mat-label>
       <input matInput formControlName="nome" maxlength="100" />
       <mat-error *ngIf="despesaForm.get('nome')?.hasError('required')">Informe o nome da despesa.</mat-error>
       <mat-error *ngIf="despesaForm.get('nome')?.hasError('maxlength')">Use até 100 caracteres.</mat-error>
@@ -16,7 +16,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Valor</mat-label>
-      <span matTextPrefix>R$&nbsp;</span>
+      <span matTextPrefix class="prefixo-moeda">R$</span>
       <input matInput type="text" inputmode="decimal" formControlName="valor" autocomplete="off" />
       <mat-error *ngIf="despesaForm.get('valor')?.hasError('required')">Informe o valor.</mat-error>
       <mat-error *ngIf="despesaForm.get('valor')?.hasError('pattern')">Informe um valor válido.</mat-error>
@@ -25,19 +25,25 @@
     <mat-dialog-actions align="end">
       <button mat-stroked-button type="button" (click)="fechar()">Cancelar</button>
       <button mat-raised-button class="botao-cadastrar" type="submit" [disabled]="despesaForm.invalid">
-        <mat-icon>check</mat-icon>
-        {{ data.modo === 'criar' ? 'Cadastrar despesa' : 'Salvar alterações' }}
+        {{ data.modo === 'criar' ? 'Adicionar' : 'Salvar alterações' }}
       </button>
     </mat-dialog-actions>
   </form>
 
-  <div class="formulario" *ngIf="data.modo === 'excluir'">
-    <p class="texto-confirmacao">Deseja realmente excluir esta despesa?</p>
-    <strong>{{ data.despesa?.nome }} — {{ data.despesa?.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+  <div class="formulario formulario-exclusao" *ngIf="data.modo === 'excluir'">
+    <div class="texto-confirmacao">
+      <mat-icon aria-hidden="true">warning_amber</mat-icon>
+      <p>Tem certeza de que deseja excluir esta despesa?</p>
+    </div>
+    <div class="detalhe-exclusao">
+      <span>Despesa</span>
+      <strong>{{ data.despesa?.nome }}</strong>
+      <span>Valor</span>
+      <strong>{{ data.despesa?.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+    </div>
     <mat-dialog-actions align="end">
       <button mat-stroked-button type="button" (click)="fechar()">Cancelar</button>
-      <button mat-raised-button color="warn" type="button" (click)="confirmarExclusao()">
-        <mat-icon>delete_outline</mat-icon>
+      <button mat-raised-button class="botao-excluir" type="button" (click)="confirmarExclusao()">
         Excluir
       </button>
     </mat-dialog-actions>
