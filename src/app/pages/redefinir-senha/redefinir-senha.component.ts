@@ -39,6 +39,8 @@ function senhasCoincidem(
 export class RedefinirSenhaComponent implements OnInit {
 
   redefinirSenhaForm!: FormGroup;
+  mostrarSenha = false;
+  mostrarConfirmacaoSenha = false;
 
   token: string | null = null;
   carregando = false;

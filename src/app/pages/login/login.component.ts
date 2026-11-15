@@ -16,6 +16,7 @@ import { finalize } from 'rxjs';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   mostrarSenha = false;
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,12 +34,17 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    if (this.isSubmitting) {
+      return;
+    }
+
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
     const credentials = this.loginForm.getRawValue();
+    this.isSubmitting = true;
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
@@ -64,11 +70,16 @@ export class LoginComponent implements OnInit {
             next: async (profile) => {
 
 
-              await this.router.navigate(['/']);
+              try {
+                await this.router.navigate(['/']);
+              } finally {
+                this.isSubmitting = false;
+              }
             },
 
             error: (error) => {
               console.error('Erro ao buscar perfil:', error);
+              this.isSubmitting = false;
 
               this.notificationService.error(
                 'Não foi possível carregar seu perfil.',
@@ -78,6 +89,7 @@ export class LoginComponent implements OnInit {
       },
 
       error: (error) => {
+        this.isSubmitting = false;
         const message = error.error?.message || 'Erro ao realizar login.';
 
         this.notificationService.error(message);

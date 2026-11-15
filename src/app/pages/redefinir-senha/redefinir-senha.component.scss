@@ -123,6 +123,21 @@
   border-radius: 8px;
 }
 
+.form-login .toggle-password {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.form-login .toggle-password mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 20px;
+}
+
 .btn-cana {
   background-color: #79A83B !important;
   color: #ffffff !important;
