@@ -1,0 +1,61 @@
+<div
+  class="install-overlay"
+  *ngIf="isVisible"
+  (click)="dismissInvite()"
+>
+  <section
+    class="install-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="install-title"
+    aria-describedby="install-description"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="app-icon" aria-hidden="true">
+      <img src="assets/icons/icon-192x192.png" alt="" />
+    </div>
+
+    <h2 id="install-title">Instale o OpenFinance</h2>
+    <p id="install-description" class="install-description">
+      Tenha seu controle financeiro sempre à mão, direto na tela inicial do celular.
+    </p>
+
+    <ng-container *ngIf="platform === 'ios'; else androidInstall">
+      <ol class="ios-steps">
+        <li>
+          <span class="step-number">1</span>
+          <span>Toque em <strong>Compartilhar</strong> no Safari.</span>
+          <mat-icon aria-hidden="true">ios_share</mat-icon>
+        </li>
+        <li>
+          <span class="step-number">2</span>
+          <span>Escolha <strong>Adicionar à Tela de Início</strong>.</span>
+        </li>
+        <li>
+          <span class="step-number">3</span>
+          <span>Confirme tocando em <strong>Adicionar</strong>.</span>
+        </li>
+      </ol>
+
+      <button class="install-button" type="button" (click)="dismissInvite()">
+        Entendi
+      </button>
+    </ng-container>
+
+    <ng-template #androidInstall>
+      <button
+        class="install-button"
+        type="button"
+        [disabled]="isInstalling"
+        (click)="installApp()"
+      >
+        <span class="button-spinner" *ngIf="isInstalling" aria-hidden="true"></span>
+        {{ isInstalling ? 'Abrindo instalação…' : 'Instalar aplicativo' }}
+      </button>
+    </ng-template>
+
+    <button class="dismiss-button" type="button" (click)="dismissInvite()">
+      Agora não
+    </button>
+  </section>
+</div>
