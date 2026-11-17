@@ -9,8 +9,10 @@
     <mat-icon>{{ menuButton ? 'menu_open' : 'menu' }}</mat-icon>
   </button>
 
-  <span class="brand-mark"><mat-icon>account_balance_wallet</mat-icon></span>
-  <span class="brand">Contô</span>
+  <div class="brand-lockup">
+    <span class="brand-mark"><mat-icon>account_balance_wallet</mat-icon></span>
+    <span class="brand">Contô</span>
+  </div>
   <span class="spacer"></span>
 
   <div class="notification-wrapper">
@@ -78,6 +80,11 @@
     </section>
   </div>
 
+  <a mat-icon-button class="settings-button" routerLink="/configuracao" routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Configurações" title="Configurações">
+    <mat-icon>settings</mat-icon>
+  </a>
+
   <button
     class="notification-backdrop"
     *ngIf="notificacoesAbertas"
@@ -136,3 +143,18 @@
     <router-outlet></router-outlet>
   </main>
 </div>
+
+<nav class="mobile-bottom-nav" aria-label="Navegação principal">
+  <a routerLink="/inicio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="Início">
+    <mat-icon>home</mat-icon><span>Início</span>
+  </a>
+  <a routerLink="/receitas" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="Receitas">
+    <mat-icon>trending_up</mat-icon><span>Receitas</span>
+  </a>
+  <a routerLink="/despesas" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="Despesas">
+    <mat-icon>trending_down</mat-icon><span>Despesas</span>
+  </a>
+  <a routerLink="/historico" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-label="Histórico">
+    <mat-icon>history</mat-icon><span>Histórico</span>
+  </a>
+</nav>

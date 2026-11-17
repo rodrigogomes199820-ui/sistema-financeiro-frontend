@@ -149,10 +149,13 @@
 
 .grafico-barras {
   display: grid;
-  max-height: 440px;
-  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-  overflow-y: auto;
-  gap: 12px 8px;
+  height: 220px;
+  grid-template-columns: repeat(12, 64px);
+  grid-auto-columns: 64px;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 12px;
   margin-top: 22px;
   padding: 0 8px;
   border-bottom: 1px solid #e8eeea;
@@ -170,6 +173,8 @@
 @media (max-width: 900px) {
   .resumo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .saldo-card { grid-column: 1 / -1; }
+  .grafico-barras { scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-x; }
+  .grafico-barras::-webkit-scrollbar { display: none; }
 }
 
 @media (max-width: 600px) {
@@ -183,7 +188,7 @@
   .movimentacoes { padding: 20px 16px; }
   .grafico-section { padding: 20px 16px 14px; }
   .grafico-section .secao-header { align-items: flex-start; flex-direction: column; }
-  .grafico-barras { max-height: 380px; gap: 8px 4px; padding: 0; }
+  .grafico-barras { height: 190px; gap: 4px; padding: 0; }
   .barras { height: 160px; gap: 4px; }
   .barra { width: 32%; max-width: 19px; }
   .movimentacao { gap: 10px; }
