@@ -63,7 +63,7 @@
       <header class="secao-header">
         <div>
           <h2 id="grafico-titulo">Receitas e despesas</h2>
-          <p>Comparativo dos últimos seis meses.</p>
+          <p>Últimos seis meses e projeção para os próximos seis.</p>
         </div>
         <div class="legenda-grafico" aria-label="Legenda do gráfico">
           <span><i class="legenda-receita"></i>Receitas</span>
@@ -72,7 +72,7 @@
       </header>
 
       <div class="grafico-barras" role="img" aria-label="Gráfico de barras comparando receitas e despesas por mês">
-        <div class="grupo-mes" *ngFor="let mes of resumoMensal">
+        <div class="grupo-mes" *ngFor="let mes of resumoMensal" [class.mes-projetado]="mes.projetado">
           <div class="barras">
             <span
               class="barra barra-receita"
@@ -85,7 +85,7 @@
               [attr.title]="'Despesas em ' + mes.rotulo + ': ' + (mes.despesas | currency:'BRL':'symbol':'1.2-2':'pt-BR')"
             ></span>
           </div>
-          <span class="rotulo-mes">{{ mes.rotulo }}</span>
+          <span class="rotulo-mes">{{ mes.rotulo }}<small>{{ mes.ano }}</small></span>
         </div>
       </div>
     </section>

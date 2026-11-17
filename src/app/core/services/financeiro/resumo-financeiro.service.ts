@@ -9,6 +9,7 @@ export interface IResumoMensal {
   rotulo: string;
   receitas: number;
   despesas: number;
+  projetado: boolean;
 }
 
 export interface IResumoFinanceiro {

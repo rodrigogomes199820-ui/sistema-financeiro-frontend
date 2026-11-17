@@ -67,7 +67,10 @@ export class InicioComponent implements OnInit {
         return;
       }
 
-      this.despesasService.create(resultado.dados as IDespesa).subscribe({
+      this.despesasService.create(
+        resultado.dados as IDespesa,
+        resultado.quantidadeParcelas
+      ).subscribe({
         next: (response) => {
           this.notificationService.success(response.message);
           this.carregarResumo();
@@ -118,13 +121,7 @@ export class InicioComponent implements OnInit {
             valor: Number(item.valor),
             tipo: 'receita'
           })),
-          ...despesas.despesas.map((item): MovimentacaoRecente => ({
-            titulo: item.nome,
-            detalhe: 'Despesa',
-            data: item.data,
-            valor: Number(item.valor),
-            tipo: 'despesa'
-          }))
+          ...this.agruparDespesasRecentes(despesas.despesas)
         ]
           .sort((a, b) => new Date(String(b.data)).getTime() - new Date(String(a.data)).getTime())
           .slice(0, 5);
@@ -136,6 +133,53 @@ export class InicioComponent implements OnInit {
         this.notificationService.error(error.error?.message || 'Erro ao carregar o saldo.');
       }
     });
+  }
+
+  private agruparDespesasRecentes(despesas: IDespesa[]): MovimentacaoRecente[] {
+    const grupos = new Map<string, IDespesa[]>();
+    const despesasAvulsas = despesas
+      .filter((despesa) => !despesa.compraParceladaId || !despesa.totalParcelas || despesa.totalParcelas < 2)
+      .map((despesa): MovimentacaoRecente => ({
+        titulo: despesa.nome,
+        detalhe: 'Despesa',
+        data: despesa.data,
+        valor: Number(despesa.valor),
+        tipo: 'despesa'
+      }));
+
+    despesas
+      .filter((despesa) => Boolean(despesa.compraParceladaId) && Boolean(despesa.totalParcelas && despesa.totalParcelas > 1))
+      .forEach((despesa) => {
+        const compraId = despesa.compraParceladaId as string;
+        const parcelas = grupos.get(compraId) || [];
+        parcelas.push(despesa);
+        grupos.set(compraId, parcelas);
+      });
+
+    const comprasParceladas = Array.from(grupos.values()).flatMap((parcelas) => {
+      const parcelasOrdenadas = [...parcelas].sort((a, b) => (a.parcelaAtual || 0) - (b.parcelaAtual || 0));
+      const primeiraParcela = parcelasOrdenadas[0];
+      if (!primeiraParcela) return [];
+
+      const valorTotalEmCentavos = parcelasOrdenadas.reduce(
+        (total, parcela) => total + Math.round(parcela.valor * 100),
+        0
+      );
+      const nome = primeiraParcela.nome.replace(/\s+\(\d+\/\d+\)$/, '');
+
+      return [{
+        titulo: nome,
+        detalhe: `Compra parcelada · ${primeiraParcela.totalParcelas}x de ${primeiraParcela.valor.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        })}`,
+        data: primeiraParcela.data,
+        valor: valorTotalEmCentavos / 100,
+        tipo: 'despesa' as const
+      }];
+    });
+
+    return [...despesasAvulsas, ...comprasParceladas];
   }
 
   private formatarCategoria(categoria: string): string {

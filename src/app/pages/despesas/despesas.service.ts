@@ -8,6 +8,9 @@ export interface IDespesa {
   nome: string;
   valor: number;
   data: Date;
+  compraParceladaId?: string;
+  parcelaAtual?: number;
+  totalParcelas?: number;
 }
 
 export interface IDespesasResponse {
@@ -21,8 +24,16 @@ export class DespesasService {
 
   constructor(private http: HttpClient) {}
 
-  create(data: IDespesa): Observable<{ message: string; despesa: IDespesa }> {
-    return this.http.post<{ message: string; despesa: IDespesa }>(this.apiUrl, data);
+  create(data: IDespesa, quantidadeParcelas = 1): Observable<{
+    message: string;
+    despesa?: IDespesa;
+    despesas?: IDespesa[];
+  }> {
+    return this.http.post<{
+      message: string;
+      despesa?: IDespesa;
+      despesas?: IDespesa[];
+    }>(this.apiUrl, { ...data, quantidadeParcelas });
   }
 
   getAll(): Observable<IDespesasResponse> {

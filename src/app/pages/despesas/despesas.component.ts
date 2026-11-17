@@ -5,6 +5,10 @@ import { DialogDespesaComponent } from './dialog-despesa/dialog-despesa.componen
 import { DespesasService, IDespesa } from './despesas.service';
 import { ResumoFinanceiroService } from 'src/app/core/services/financeiro/resumo-financeiro.service';
 
+interface DespesaTabela extends IDespesa {
+  parcelasCompra?: IDespesa[];
+}
+
 @Component({
   selector: 'app-despesas',
   templateUrl: './despesas.component.html',
@@ -12,6 +16,8 @@ import { ResumoFinanceiroService } from 'src/app/core/services/financeiro/resumo
 })
 export class DespesasComponent implements OnInit {
   despesas: IDespesa[] = [];
+  despesasExibidas: DespesaTabela[] = [];
+  compraExpandidaId: string | null = null;
 
   constructor(
     private despesasService: DespesasService,
@@ -37,7 +43,7 @@ export class DespesasComponent implements OnInit {
         return;
       }
 
-      this.despesasService.create(resultado.dados).subscribe({
+      this.despesasService.create(resultado.dados, resultado.quantidadeParcelas).subscribe({
         next: (response) => {
           this.notificationService.success(response.message);
           this.buscarDespesas();
@@ -102,10 +108,15 @@ export class DespesasComponent implements OnInit {
     });
   }
 
+  alternarParcelas(compraId: string): void {
+    this.compraExpandidaId = this.compraExpandidaId === compraId ? null : compraId;
+  }
+
   private buscarDespesas(): void {
     this.despesasService.getAll().subscribe({
       next: (response) => {
         this.despesas = response.despesas;
+        this.despesasExibidas = this.agruparComprasParceladas(response.despesas);
       },
       error: (error) => {
         console.error('Erro ao buscar despesas:', error);
@@ -122,5 +133,44 @@ export class DespesasComponent implements OnInit {
       ),
       error: (error) => console.error('Erro ao verificar o total mensal de despesas:', error)
     });
+  }
+
+  private agruparComprasParceladas(despesas: IDespesa[]): DespesaTabela[] {
+    const grupos = new Map<string, IDespesa[]>();
+    const despesasAvulsas: DespesaTabela[] = [];
+
+    despesas.forEach((despesa) => {
+      if (!despesa.compraParceladaId || !despesa.totalParcelas || despesa.totalParcelas < 2) {
+        despesasAvulsas.push({ ...despesa });
+        return;
+      }
+
+      const grupo = grupos.get(despesa.compraParceladaId) || [];
+      grupo.push(despesa);
+      grupos.set(despesa.compraParceladaId, grupo);
+    });
+
+    const comprasAgrupadas = Array.from(grupos.entries()).flatMap(([compraId, parcelas]) => {
+      const parcelasOrdenadas = [...parcelas].sort((a, b) => (a.parcelaAtual || 0) - (b.parcelaAtual || 0));
+      const primeiraParcela = parcelasOrdenadas[0];
+      if (!primeiraParcela) return [];
+
+      const nome = primeiraParcela.nome.replace(/\s+\(\d+\/\d+\)$/, '');
+      const valorTotalEmCentavos = parcelasOrdenadas.reduce(
+        (total, parcela) => total + Math.round(parcela.valor * 100),
+        0
+      );
+
+      return [{
+        ...primeiraParcela,
+        compraParceladaId: compraId,
+        nome,
+        valor: valorTotalEmCentavos / 100,
+        parcelasCompra: parcelasOrdenadas
+      }];
+    });
+
+    return [...despesasAvulsas, ...comprasAgrupadas]
+      .sort((a, b) => new Date(String(b.data)).getTime() - new Date(String(a.data)).getTime());
   }
 }

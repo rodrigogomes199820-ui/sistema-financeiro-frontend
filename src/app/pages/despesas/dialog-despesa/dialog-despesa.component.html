@@ -15,12 +15,29 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Valor</mat-label>
+      <mat-label>{{ data.modo === 'criar' ? 'Valor total da compra' : 'Valor' }}</mat-label>
       <span matTextPrefix class="prefixo-moeda">R$</span>
       <input matInput type="text" inputmode="decimal" formControlName="valor" autocomplete="off" />
       <mat-error *ngIf="despesaForm.get('valor')?.hasError('required')">Informe o valor.</mat-error>
       <mat-error *ngIf="despesaForm.get('valor')?.hasError('pattern')">Informe um valor válido.</mat-error>
     </mat-form-field>
+
+    <ng-container *ngIf="data.modo === 'criar'">
+      <mat-form-field appearance="outline">
+        <mat-label>Quantidade de parcelas</mat-label>
+        <mat-select formControlName="quantidadeParcelas">
+          <mat-option *ngFor="let quantidade of opcoesParcelas" [value]="quantidade">
+            {{ quantidade }}x
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <p class="resumo-parcelamento" *ngIf="valorTotalPreview !== null && valorParcelaPreview !== null">
+        O total de {{ valorTotalPreview | currency:'BRL':'symbol':'1.2-2':'pt-BR' }} será dividido em
+        {{ despesaForm.controls.quantidadeParcelas.value }} parcela(s) mensais de aproximadamente
+        {{ valorParcelaPreview | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}.
+      </p>
+    </ng-container>
 
     <mat-dialog-actions align="end">
       <button mat-stroked-button type="button" (click)="fechar()">Cancelar</button>

@@ -38,6 +38,18 @@
   .valor-heading, .valor { text-align: right; white-space: nowrap; }
   .acoes-heading, .acoes { width: 64px; text-align: center; }
   .valor { color: #bd3c3c; font-weight: 600; }
+  .resumo-parcelas { display: block; margin-top: 4px; color: #718078; font-size: 11px; }
+  .despesa-parcelada { background: #fbfcfb; }
+  .acoes { min-width: 100px; }
+  .botao-ver-parcelas { min-width: 0; padding: 0 6px; color: #16834a; font-size: 11px; }
+  .linha-detalhes-parcelas td { padding-top: 0; background: #fbfcfb; }
+  .detalhes-parcelas { padding: 4px 12px 8px; border-left: 3px solid #d9eddf; }
+  .detalhes-parcelas > strong { display: block; margin: 4px 0 8px; color: #52635a; font-size: 12px; }
+  .parcela-detalhe { display: grid; grid-template-columns: minmax(0, 1fr) auto 40px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #edf1ee; }
+  .parcela-detalhe > div { display: flex; flex-direction: column; gap: 3px; }
+  .parcela-detalhe > div strong { color: #263b30; font-size: 12px; }
+  .parcela-detalhe > div span { color: #718078; font-size: 11px; }
+  .valor-parcela { color: #bd3c3c; font-size: 12px; white-space: nowrap; }
   .sem-despesas { margin: 0; padding: 24px 0; color: #718078; font-size: 13px; text-align: center; }
 }
 

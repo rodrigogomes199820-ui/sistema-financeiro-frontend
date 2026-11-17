@@ -29,6 +29,13 @@
 
 .formulario input { font-size: 16px; }
 
+.resumo-parcelamento {
+  margin: -8px 0 12px;
+  color: #52635a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .formulario ::ng-deep .prefixo-moeda { margin-right: 8px; }
 
 .formulario ::ng-deep .botao-cadastrar.mat-mdc-raised-button {

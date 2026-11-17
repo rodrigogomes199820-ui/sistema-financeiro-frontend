@@ -11,32 +11,80 @@
 
   <section class="historico">
     <h2>Despesas cadastradas</h2>
-    <div class="table-wrapper" *ngIf="despesas.length > 0; else semDespesas">
+    <div class="table-wrapper" *ngIf="despesasExibidas.length > 0; else semDespesas">
       <table>
         <thead>
           <tr><th>Despesa</th><th>Data</th><th class="valor-heading">Valor</th><th class="acoes-heading">Ações</th></tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of despesas">
-            <td>{{ item.nome }}</td>
-            <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
-            <td class="valor">{{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
-            <td class="acoes">
-              <button mat-icon-button [matMenuTriggerFor]="menuDespesa" aria-label="Opções da despesa">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menuDespesa="matMenu">
-                <button mat-menu-item (click)="editarDespesa(item)">
-                  <mat-icon>drive_file_rename_outline</mat-icon>
-                  <span>Editar</span>
-                </button>
-                <button mat-menu-item (click)="excluirDespesa(item)">
-                  <mat-icon>delete_outline</mat-icon>
-                  <span>Excluir</span>
-                </button>
-              </mat-menu>
-            </td>
-          </tr>
+          <ng-container *ngFor="let item of despesasExibidas">
+            <tr [class.despesa-parcelada]="item.parcelasCompra">
+              <td>
+                {{ item.nome }}
+                <small class="resumo-parcelas" *ngIf="item.parcelasCompra as parcelas">
+                  {{ item.totalParcelas }}x de {{ parcelas[0].valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </small>
+              </td>
+              <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
+              <td class="valor">{{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+              <td class="acoes">
+                <ng-container *ngIf="item.parcelasCompra; else acoesDespesaAvulsa">
+                  <button
+                    mat-button
+                    type="button"
+                    class="botao-ver-parcelas"
+                    [attr.aria-expanded]="compraExpandidaId === item.compraParceladaId"
+                    (click)="alternarParcelas(item.compraParceladaId!)"
+                  >
+                    {{ compraExpandidaId === item.compraParceladaId ? 'Ocultar' : 'Ver parcelas' }}
+                  </button>
+                </ng-container>
+                <ng-template #acoesDespesaAvulsa>
+                  <button mat-icon-button [matMenuTriggerFor]="menuDespesa" aria-label="Opções da despesa">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menuDespesa="matMenu">
+                    <button mat-menu-item (click)="editarDespesa(item)">
+                      <mat-icon>drive_file_rename_outline</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                    <button mat-menu-item (click)="excluirDespesa(item)">
+                      <mat-icon>delete_outline</mat-icon>
+                      <span>Excluir</span>
+                    </button>
+                  </mat-menu>
+                </ng-template>
+              </td>
+            </tr>
+
+            <tr *ngIf="item.parcelasCompra && compraExpandidaId === item.compraParceladaId" class="linha-detalhes-parcelas">
+              <td colspan="4">
+                <div class="detalhes-parcelas">
+                  <strong>Parcelas desta compra</strong>
+                  <div class="parcela-detalhe" *ngFor="let parcela of item.parcelasCompra">
+                    <div>
+                      <strong>Parcela {{ parcela.parcelaAtual }}/{{ parcela.totalParcelas }}</strong>
+                      <span>{{ parcela.data | date:'dd/MM/yyyy':'UTC' }}</span>
+                    </div>
+                    <strong class="valor-parcela">{{ parcela.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+                    <button mat-icon-button [matMenuTriggerFor]="menuParcela" aria-label="Opções da parcela">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menuParcela="matMenu">
+                      <button mat-menu-item (click)="editarDespesa(parcela)">
+                        <mat-icon>drive_file_rename_outline</mat-icon>
+                        <span>Editar parcela</span>
+                      </button>
+                      <button mat-menu-item (click)="excluirDespesa(parcela)">
+                        <mat-icon>delete_outline</mat-icon>
+                        <span>Excluir parcela</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
