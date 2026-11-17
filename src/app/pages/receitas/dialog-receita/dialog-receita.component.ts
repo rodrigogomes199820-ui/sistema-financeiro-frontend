@@ -52,7 +52,7 @@ export class DialogReceitaComponent {
       this.receitaForm.patchValue({
         valor: data.receita.valor.toFixed(2).replace('.', ','),
         dataRecebimento: this.formatarDataBrasileira(data.receita.dataRecebimento),
-        categoria: data.receita.categoria,
+        categoria: 'salario',
         observacao: data.receita.observacao || ''
       });
     }

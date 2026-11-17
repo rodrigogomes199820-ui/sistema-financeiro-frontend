@@ -36,9 +36,6 @@
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoria">
           <mat-option value="salario">Salário</mat-option>
-          <mat-option value="freelance">Freelance</mat-option>
-          <mat-option value="comissao">Comissão</mat-option>
-          <mat-option value="outros">Outros</mat-option>
         </mat-select>
         <mat-error *ngIf="receitaForm.get('categoria')?.hasError('required')">Selecione uma categoria.</mat-error>
       </mat-form-field>
