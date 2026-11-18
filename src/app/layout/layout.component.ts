@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-import { OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { AppNotification, NotificationService } from 'src/app/core/services/notification.service';
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-layout',
@@ -34,11 +32,6 @@ export class LayoutComponent implements OnDestroy {
     this.notificationSubscription.unsubscribe();
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
   toggleMenu(): void {
     this.menuButton = !this.menuButton;
   }
@@ -47,6 +40,11 @@ export class LayoutComponent implements OnDestroy {
     if (window.innerWidth <= 800) {
       this.menuButton = false;
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   alternarNotificacoes(): void {

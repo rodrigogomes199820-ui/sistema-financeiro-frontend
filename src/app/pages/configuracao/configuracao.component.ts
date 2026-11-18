@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { AppNotification, NotificationService } from 'src/app/core/services/notification.service';
 import { UsuarioService } from 'src/app/core/services/usuario/usuario.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-configuracao',
   templateUrl: './configuracao.component.html',
   styleUrls: ['./configuracao.component.scss']
 })
-export class ConfiguracaoComponent implements OnInit {
+export class ConfiguracaoComponent implements OnInit, OnDestroy {
   carregandoPerfil = true;
   salvandoPerfil = false;
   alterandoSenha = false;
   excluindoConta = false;
+  notificacoesAbertas = false;
+  notificacoes: AppNotification[] = [];
+  notificacoesNaoLidas = 0;
+  private readonly notificationSubscription: Subscription;
 
   perfilForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -39,7 +44,16 @@ export class ConfiguracaoComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.notificationSubscription = this.notificationService.notifications$.subscribe((notificacoes) => {
+      this.notificacoes = notificacoes;
+      this.notificacoesNaoLidas = this.notificationService.unreadCount;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.notificationSubscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.usuarioService.getProfile().subscribe({
@@ -53,6 +67,27 @@ export class ConfiguracaoComponent implements OnInit {
         this.carregandoPerfil = false;
       }
     });
+  }
+
+  alternarNotificacoes(): void {
+    this.notificacoesAbertas = !this.notificacoesAbertas;
+  }
+
+  marcarNotificacaoComoLida(notificacao: AppNotification): void {
+    this.notificationService.markAsRead(notificacao.id);
+  }
+
+  marcarTodasComoLidas(): void {
+    this.notificationService.markAllAsRead();
+  }
+
+  limparNotificacoes(): void {
+    this.notificationService.clear();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   salvarPerfil(): void {

@@ -42,6 +42,49 @@
 .profile-label { color: #16834a; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
 .profile-overview h2 { overflow-wrap: anywhere; margin: 4px 0; color: #172b22; font-size: 20px; font-weight: 600; }
 .profile-overview p { overflow-wrap: anywhere; margin: 0; color: #718078; font-size: 13px; }
+.profile-overview-actions { display: none; align-items: center; gap: 8px; margin-left: auto; }
+.profile-overview-actions button { position: relative; min-height: 44px; border-radius: 9px; }
+.profile-overview-actions mat-icon { margin-right: 4px; }
+.profile-notifications-button { color: #245c42; }
+.profile-logout-button { color: #a83832; }
+.notification-badge { position: absolute; top: -5px; right: -5px; display: grid; min-width: 18px; height: 18px; place-items: center; padding: 0 4px; border: 2px solid #fff; border-radius: 10px; background: #e05c52; color: #fff; font-size: 9px; font-weight: 700; line-height: 1; }
+
+.notification-panel {
+  display: none;
+  max-height: 420px;
+  flex-direction: column;
+  overflow: hidden;
+  margin: -4px 0 18px;
+  border: 1px solid #e6ece8;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(23, 43, 34, 0.1);
+  color: #263b30;
+}
+
+.notification-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; }
+.notification-panel-header h2 { margin: 0; color: #172b22; font-size: 16px; font-weight: 600; }
+.notification-panel-header span { display: block; margin-top: 4px; color: #718078; font-size: 11px; }
+.notification-panel-header button { color: #718078; }
+.notification-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 0 18px 10px; }
+.notification-actions button { padding: 0; border: 0; background: transparent; color: #16834a; cursor: pointer; font: inherit; font-size: 11px; font-weight: 600; }
+.notification-list { overflow-y: auto; border-top: 1px solid #edf1ee; }
+.notification-item { display: flex; width: 100%; align-items: flex-start; gap: 11px; padding: 13px 16px; border: 0; border-bottom: 1px solid #edf1ee; background: #fff; color: inherit; cursor: pointer; text-align: left; }
+.notification-item:hover { background: #f8faf8; }
+.notification-item.notification-unread { background: #f1f8f2; }
+.notification-item-icon { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border-radius: 10px; background: #e7f7e9; color: #16834a; }
+.notification-item-icon mat-icon { width: 19px; height: 19px; font-size: 19px; }
+.notification-item-icon.notification-icon-error { background: #fff0ee; color: #bd3c3c; }
+.notification-item-icon.notification-icon-warning { background: #fff4df; color: #a86400; }
+.notification-item-content { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 4px; }
+.notification-item-content strong { color: #263b30; font-size: 12px; font-weight: 600; }
+.notification-item-content > span { overflow-wrap: anywhere; color: #52635a; font-size: 12px; line-height: 1.4; }
+.notification-item-content small { color: #8a9890; font-size: 10px; }
+.notification-unread-dot { width: 7px; height: 7px; flex: 0 0 7px; margin-top: 5px; border-radius: 50%; background: #16834a; }
+.notification-empty { display: flex; min-height: 150px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px; color: #718078; text-align: center; }
+.notification-empty mat-icon { width: 30px; height: 30px; color: #9baa9f; font-size: 30px; }
+.notification-empty strong { color: #263b30; font-size: 13px; }
+.notification-empty span { max-width: 240px; font-size: 11px; line-height: 1.4; }
 
 .config-card {
   margin-bottom: 18px;
@@ -73,7 +116,9 @@
 @media (max-width: 700px) {
   .container { padding: 14px; }
   .page-header, .config-card, .profile-overview { padding: 18px; }
-  .profile-overview { gap: 14px; }
+  .profile-overview { flex-wrap: wrap; gap: 14px; }
+  .profile-overview-actions { width: 100%; margin-left: 0; }
+  .profile-overview-actions button { flex: 1; }
   .profile-avatar { width: 104px; height: 104px; flex-basis: 104px; }
   .profile-avatar mat-icon { width: 58px; height: 58px; font-size: 58px; }
   .profile-overview h2 { font-size: 18px; }
@@ -82,4 +127,61 @@
   .campo-senha-atual { max-width: 100%; }
   .form-actions { justify-content: stretch; }
   .form-actions button { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .profile-overview-actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 4px 0 0;
+  }
+
+  .profile-overview-actions button {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 10px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .profile-overview-actions button:active { transform: scale(0.98); }
+  .profile-overview-actions button:focus-visible { outline: 2px solid #16834a; outline-offset: 2px; }
+  .profile-overview-actions mat-icon { width: 20px; height: 20px; margin: 0; font-size: 20px; }
+  .profile-notifications-button { border-color: #cfe4d5; background: #edf7ef; color: #176c40; }
+  .profile-notifications-button:hover { border-color: #acd2b7; background: #e4f2e7; }
+  .profile-logout-button { border-color: #f0d9d6; background: #fff5f4; color: #a83832; }
+  .profile-logout-button:hover { border-color: #e9c2bd; background: #ffefed; }
+  .notification-badge { top: 3px; right: 7px; min-width: 17px; height: 17px; border-width: 1px; }
+
+  .notification-panel {
+    max-height: min(55vh, 420px);
+    margin: 0 0 18px;
+    border-radius: 12px;
+  }
+
+  .notification-panel-header { padding: 14px 14px 10px; }
+  .notification-actions { padding: 0 14px 10px; }
+  .notification-actions button {
+    min-height: 40px;
+    padding: 0 10px;
+    border-radius: 8px;
+    background: #f1f8f2;
+  }
+  .notification-item { gap: 9px; padding: 12px; }
+}
+
+@media (max-width: 380px) {
+  .profile-overview-actions { grid-template-columns: 1fr; }
+  .profile-overview-actions button { justify-content: flex-start; padding: 0 16px; }
 }

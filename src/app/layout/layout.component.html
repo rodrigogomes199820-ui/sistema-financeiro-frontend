@@ -21,6 +21,7 @@
       class="notification-button"
       type="button"
       aria-label="Notificações"
+      aria-controls="layout-notification-panel"
       [attr.aria-expanded]="notificacoesAbertas"
       (click)="alternarNotificacoes()"
     >
@@ -30,7 +31,12 @@
       </span>
     </button>
 
-    <section class="notification-panel" *ngIf="notificacoesAbertas" aria-label="Central de notificações">
+    <section
+      class="notification-panel"
+      id="layout-notification-panel"
+      *ngIf="notificacoesAbertas"
+      aria-label="Central de notificações"
+    >
       <header class="notification-panel-header">
         <div>
           <h2>Notificações</h2>
@@ -85,6 +91,11 @@
     <mat-icon>account_circle</mat-icon>
   </a>
 
+  <button mat-button class="logout-button" type="button" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Sair</span>
+  </button>
+
   <button
     class="notification-backdrop"
     *ngIf="notificacoesAbertas"
@@ -92,11 +103,6 @@
     aria-label="Fechar central de notificações"
     (click)="alternarNotificacoes()"
   ></button>
-
-  <button mat-button class="logout-button" type="button" (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span>Sair</span>
-  </button>
 </mat-toolbar>
 
 <div class="layout-container" [class.sidebar-open]="menuButton">

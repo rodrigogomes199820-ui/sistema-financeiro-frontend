@@ -19,6 +19,80 @@
         <h2>{{ perfilForm.get('name')?.value || 'Usuário' }}</h2>
         <p>{{ perfilForm.get('email')?.value }}</p>
       </div>
+      <div class="profile-overview-actions">
+        <button
+          mat-stroked-button
+          type="button"
+          class="profile-notifications-button"
+          [attr.aria-expanded]="notificacoesAbertas"
+          aria-controls="notification-center"
+          (click)="alternarNotificacoes()"
+        >
+          <mat-icon>notifications</mat-icon>
+          <span>Notificações</span>
+          <span class="notification-badge" *ngIf="notificacoesNaoLidas > 0">
+            {{ notificacoesNaoLidas > 9 ? '9+' : notificacoesNaoLidas }}
+          </span>
+        </button>
+        <button mat-stroked-button type="button" class="profile-logout-button" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </div>
+    </section>
+
+    <section
+      class="notification-panel"
+      id="notification-center"
+      *ngIf="notificacoesAbertas"
+      aria-label="Central de notificações"
+    >
+      <header class="notification-panel-header">
+        <div>
+          <h2>Notificações</h2>
+          <span>{{ notificacoesNaoLidas }} não lida(s)</span>
+        </div>
+        <button mat-icon-button type="button" aria-label="Fechar notificações" (click)="alternarNotificacoes()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </header>
+
+      <div class="notification-actions" *ngIf="notificacoes.length > 0">
+        <button type="button" (click)="marcarTodasComoLidas()">Marcar todas como lidas</button>
+        <button type="button" (click)="limparNotificacoes()">Limpar</button>
+      </div>
+
+      <div class="notification-list" *ngIf="notificacoes.length > 0; else semNotificacoes">
+        <button
+          class="notification-item"
+          type="button"
+          *ngFor="let notificacao of notificacoes"
+          [class.notification-unread]="!notificacao.lida"
+          (click)="marcarNotificacaoComoLida(notificacao)"
+        >
+          <span
+            class="notification-item-icon"
+            [class.notification-icon-error]="notificacao.tipo === 'error'"
+            [class.notification-icon-warning]="notificacao.tipo === 'warning'"
+          >
+            <mat-icon>{{ notificacao.tipo === 'success' ? 'check_circle' : notificacao.tipo === 'warning' ? 'warning_amber' : 'error_outline' }}</mat-icon>
+          </span>
+          <span class="notification-item-content">
+            <strong>{{ notificacao.titulo }}</strong>
+            <span>{{ notificacao.mensagem }}</span>
+            <small>{{ notificacao.data | date:'dd/MM/yyyy HH:mm' }}</small>
+          </span>
+          <i *ngIf="!notificacao.lida" class="notification-unread-dot"></i>
+        </button>
+      </div>
+
+      <ng-template #semNotificacoes>
+        <div class="notification-empty">
+          <mat-icon>notifications_none</mat-icon>
+          <strong>Nenhuma notificação</strong>
+          <span>Os avisos da sua conta aparecerão aqui.</span>
+        </div>
+      </ng-template>
     </section>
 
     <section class="config-card">
