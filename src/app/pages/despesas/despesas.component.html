@@ -22,11 +22,12 @@
               <td>
                 {{ item.nome }}
                 <small class="resumo-parcelas" *ngIf="item.parcelasCompra as parcelas">
+                  <span class="parcelada-badge">Parcelada</span>
                   {{ item.totalParcelas }}x de {{ parcelas[0].valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
                 </small>
               </td>
-              <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
-              <td class="valor">{{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+              <td class="data-despesa" data-label="Data">{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
+              <td class="valor" data-label="Valor">{{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
               <td class="acoes">
                 <ng-container *ngIf="item.parcelasCompra; else acoesDespesaAvulsa">
                   <button

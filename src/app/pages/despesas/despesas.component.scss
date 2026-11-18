@@ -55,9 +55,175 @@
 
 @media (max-width: 600px) {
   .container {
-    padding: 14px;
-    .header { align-items: flex-start; flex-direction: column; padding: 20px; }
-    .header button { width: 100%; }
-    .historico { padding: 18px; }
+    padding: 12px;
+
+    .header {
+      align-items: stretch;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 14px;
+      padding: 18px;
+
+      h1 { font-size: 23px; }
+      p { font-size: 13px; line-height: 1.45; }
+      button { width: 100%; min-height: 46px; }
+    }
+
+    .historico {
+      padding: 16px 12px;
+
+      h2 { margin-bottom: 14px; font-size: 16px; }
+    }
+
+    .table-wrapper { overflow: visible; }
+
+    table, tbody { display: block; width: 100%; }
+    thead { display: none; }
+
+    tbody > tr:not(.linha-detalhes-parcelas) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "title action"
+        "date value";
+      align-items: center;
+      gap: 14px 12px;
+      margin-bottom: 10px;
+      padding: 15px;
+      border: 1px solid #e3ebe5;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(23, 43, 34, 0.045);
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas):hover {
+      border-color: #b8d7c2;
+      box-shadow: 0 5px 14px rgba(23, 43, 34, 0.08);
+      transform: translateY(-1px);
+    }
+
+    tbody > tr.despesa-parcelada:not(.linha-detalhes-parcelas) {
+      border-left: 3px solid #16834a;
+      background: #fcfefc;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas) > td {
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      overflow-wrap: anywhere;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas) > td:first-child {
+      grid-area: title;
+      color: #172b22;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas) > .data-despesa {
+      grid-area: date;
+      color: #718078;
+      font-size: 12px;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas) > .valor {
+      grid-area: value;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    td[data-label]::before {
+      display: block;
+      margin-bottom: 4px;
+      color: #8a9890;
+      content: attr(data-label);
+      font-size: 9px;
+      font-weight: 600;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tbody > tr:not(.linha-detalhes-parcelas) > .acoes {
+      grid-area: action;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: auto;
+      min-width: 0;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .acoes > button[mat-icon-button] {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #f3f7f4;
+    }
+
+    .botao-ver-parcelas {
+      min-height: 38px;
+      padding: 0 10px;
+      border-radius: 9px;
+      background: #eaf5ed;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .resumo-parcelas {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px 7px;
+      margin-top: 7px;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .parcelada-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 20px;
+      padding: 0 7px;
+      border-radius: 6px;
+      background: #eaf5ed;
+      color: #176c40;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .linha-detalhes-parcelas {
+      display: block;
+      margin: -5px 0 12px;
+
+      td {
+        display: block;
+        width: auto;
+        padding: 14px;
+        border: 1px solid #e3ebe5;
+        border-radius: 12px;
+        background: #f9fcfa;
+      }
+    }
+
+    .detalhes-parcelas { padding: 0 0 0 10px; }
+    .detalhes-parcelas > strong { color: #52635a; font-size: 11px; }
+    .parcela-detalhe { grid-template-columns: minmax(0, 1fr) auto 40px; gap: 6px; }
+    .parcela-detalhe > button[mat-icon-button] { width: 40px; height: 40px; }
+    .valor-parcela { color: #a93636; font-size: 12px; font-weight: 700; }
+    .sem-despesas { padding: 20px 8px; line-height: 1.5; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container tbody > tr:not(.linha-detalhes-parcelas) {
+    transition: none;
   }
 }
