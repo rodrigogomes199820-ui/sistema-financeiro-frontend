@@ -59,9 +59,14 @@
 
     <button mat-raised-button class="btn-cana" [class.is-loading]="isSubmitting" type="submit" [disabled]="loginForm.invalid || isSubmitting" [attr.aria-busy]="isSubmitting">
       <span *ngIf="isSubmitting" class="button-spinner" aria-hidden="true"></span>
-      <span>{{ isSubmitting ? 'Entrando...' : 'Entrar' }}</span>
+      <span>{{ isSubmitting ? 'Entrando' : 'Entrar' }}</span>
+      <span *ngIf="isSubmitting" class="loading-dots" aria-hidden="true">
+        <span>.</span><span>.</span><span>.</span>
+      </span>
     </button>
-    <span class="sr-only" aria-live="polite">{{ isSubmitting ? 'Aguarde, estamos entrando na sua conta.' : '' }}</span>
+    <p *ngIf="isSubmitting" class="login-loading" role="status" aria-live="polite">
+      Estamos verificando seus dados. Isso pode levar alguns segundos.
+    </p>
 
     <div class="register">
       <span>Não tem uma conta?</span>

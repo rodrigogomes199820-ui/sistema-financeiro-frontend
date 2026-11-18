@@ -2,11 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
 
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +20,6 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private notificationService: NotificationService,
-    private loadingService: LoadingService,
   ) {}
 
   ngOnInit(): void {
@@ -50,42 +46,23 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         this.authService.setToken(response.token);
 
-        this.loadingService.show();
-
-        const inicioLoader = Date.now();
-
-        this.authService
-          .getProfile()
-          .pipe(
-            finalize(() => {
-              const tempoDecorrido = Date.now() - inicioLoader;
-              const tempoRestante = Math.max(0, 2000 - tempoDecorrido);
-
-              setTimeout(() => {
-                this.loadingService.hide();
-              }, tempoRestante);
-            }),
-          )
-          .subscribe({
-            next: async (profile) => {
-
-
-              try {
-                await this.router.navigate(['/']);
-              } finally {
-                this.isSubmitting = false;
-              }
-            },
-
-            error: (error) => {
-              console.error('Erro ao buscar perfil:', error);
+        this.authService.getProfile().subscribe({
+          next: async () => {
+            try {
+              await this.router.navigate(['/']);
+            } finally {
               this.isSubmitting = false;
+            }
+          },
+          error: (error) => {
+            console.error('Erro ao buscar perfil:', error);
+            this.isSubmitting = false;
 
-              this.notificationService.error(
-                'Não foi possível carregar seu perfil.',
-              );
-            },
-          });
+            this.notificationService.error(
+              'Não foi possível carregar seu perfil.',
+            );
+          },
+        });
       },
 
       error: (error) => {

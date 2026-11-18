@@ -19,7 +19,6 @@ import { InicioComponent } from './pages/inicio/inicio.component';
 import { LayoutComponent } from './layout/layout.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 import { RedefinirSenhaComponent } from './pages/redefinir-senha/redefinir-senha.component';
-import { OpenFinanceLoaderComponent } from './shared/components/open-finance-loader/open-finance-loader.component';
 import { ReceitasComponent } from './pages/receitas/receitas.component';
 import { HistoricoComponent } from './pages/historico/historico.component';
 import { ConfiguracaoComponent } from './pages/configuracao/configuracao.component';
@@ -40,7 +39,6 @@ registerLocaleData(localePt, 'pt-BR');
     LayoutComponent,
     RecuperarSenhaComponent,
     RedefinirSenhaComponent,
-    OpenFinanceLoaderComponent,
     InstallPwaComponent,
     ReceitasComponent,
     HistoricoComponent,

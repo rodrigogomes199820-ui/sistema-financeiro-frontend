@@ -193,20 +193,54 @@
   animation: button-spin 0.7s linear infinite;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+.loading-dots {
+  display: inline-flex;
+
+  span {
+    animation: dot-pulse 1.2s infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+.login-loading {
+  margin: 0;
+  color: #606770;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 @keyframes button-spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes dot-pulse {
+  0%, 60%, 100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-spinner,
+  .loading-dots span {
+    animation: none;
+  }
+
+  .loading-dots span {
+    opacity: 1;
+  }
 }
 
 .forgot-password {
