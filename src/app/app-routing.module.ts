@@ -13,6 +13,7 @@ import { ReceitasComponent } from './pages/receitas/receitas.component';
 import { HistoricoComponent } from './pages/historico/historico.component';
 import { ConfiguracaoComponent } from './pages/configuracao/configuracao.component';
 import { DespesasComponent } from './pages/despesas/despesas.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 import { authGuard } from './core/guards/auth.guard';
 
@@ -74,6 +75,11 @@ const routes: Routes = [
       {
         path: 'configuracao',
         component: ConfiguracaoComponent
+      },
+
+      {
+        path: 'perfil',
+        component: PerfilComponent
       }
 
     ]

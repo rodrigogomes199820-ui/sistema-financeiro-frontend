@@ -1,0 +1,115 @@
+<div class="container">
+  <header class="page-header">
+    <div>
+      <span class="eyebrow">SUA CONTA</span>
+      <h1>Perfil</h1>
+      <p>Consulte seus dados e acesse as configurações da conta.</p>
+    </div>
+  </header>
+
+  <p class="carregando" *ngIf="carregandoPerfil">Carregando seus dados...</p>
+
+  <section class="profile-overview" *ngIf="!carregandoPerfil" aria-label="Perfil do usuário">
+    <div class="mobile-profile-brand">
+      <img src="assets/brand-logo-poupae.png" alt="Poupaê" />
+    </div>
+    <span class="profile-avatar" aria-hidden="true">
+      <mat-icon>person</mat-icon>
+    </span>
+    <div class="profile-overview-text">
+      <h2>{{ nome }}</h2>
+      <p>{{ email }}</p>
+    </div>
+  </section>
+
+  <nav class="profile-menu" *ngIf="!carregandoPerfil" aria-label="Opções do perfil">
+    <a class="profile-menu-item" routerLink="/configuracao">
+      <span class="profile-menu-icon"><mat-icon>settings</mat-icon></span>
+      <span class="profile-menu-copy">
+        <strong>Configurações</strong>
+        <small>Dados pessoais, segurança e conta</small>
+      </span>
+      <mat-icon class="profile-menu-chevron">chevron_right</mat-icon>
+    </a>
+    <button
+      class="profile-menu-item profile-notifications-button"
+      type="button"
+      [attr.aria-expanded]="notificacoesAbertas"
+      aria-controls="profile-notification-center"
+      (click)="alternarNotificacoes()"
+    >
+      <span class="profile-menu-icon">
+        <mat-icon>notifications</mat-icon>
+        <span class="notification-badge" *ngIf="notificacoesNaoLidas > 0">
+          {{ notificacoesNaoLidas > 9 ? '9+' : notificacoesNaoLidas }}
+        </span>
+      </span>
+      <span class="profile-menu-copy">
+        <strong>Notificações</strong>
+        <small>Avisos da sua conta</small>
+      </span>
+      <mat-icon class="profile-menu-chevron">chevron_right</mat-icon>
+    </button>
+  </nav>
+
+  <section
+    class="notification-panel"
+    id="profile-notification-center"
+    *ngIf="notificacoesAbertas && !carregandoPerfil"
+    aria-label="Central de notificações"
+  >
+    <header class="notification-panel-header">
+      <div>
+        <h2>Notificações</h2>
+        <span>{{ notificacoesNaoLidas }} não lida(s)</span>
+      </div>
+      <button mat-icon-button type="button" aria-label="Fechar notificações" (click)="alternarNotificacoes()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <div class="notification-actions" *ngIf="notificacoes.length > 0">
+      <button type="button" (click)="marcarTodasComoLidas()">Marcar todas como lidas</button>
+      <button type="button" (click)="limparNotificacoes()">Limpar</button>
+    </div>
+
+    <div class="notification-list" *ngIf="notificacoes.length > 0; else semNotificacoes">
+      <button
+        class="notification-item"
+        type="button"
+        *ngFor="let notificacao of notificacoes"
+        [class.notification-unread]="!notificacao.lida"
+        (click)="marcarNotificacaoComoLida(notificacao)"
+      >
+        <span
+          class="notification-item-icon"
+        >
+          <mat-icon>{{ notificacao.tipo === 'success' ? 'check_circle' : notificacao.tipo === 'warning' ? 'warning_amber' : 'error_outline' }}</mat-icon>
+        </span>
+        <span class="notification-item-content">
+          <strong>{{ notificacao.titulo }}</strong>
+          <span>{{ notificacao.mensagem }}</span>
+          <small>{{ notificacao.data | date:'dd/MM/yyyy HH:mm' }}</small>
+        </span>
+      </button>
+    </div>
+
+    <ng-template #semNotificacoes>
+      <div class="notification-empty">
+        <mat-icon>notifications_none</mat-icon>
+        <strong>Nenhuma notificação</strong>
+        <span>Os avisos da sua conta aparecerão aqui.</span>
+      </div>
+    </ng-template>
+  </section>
+
+  <button
+    class="profile-logout-button"
+    *ngIf="!carregandoPerfil"
+    type="button"
+    (click)="logout()"
+  >
+    <mat-icon>logout</mat-icon>
+    <span>Sair da conta</span>
+  </button>
+</div>

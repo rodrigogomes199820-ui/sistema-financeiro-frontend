@@ -22,6 +22,7 @@ import { RedefinirSenhaComponent } from './pages/redefinir-senha/redefinir-senha
 import { ReceitasComponent } from './pages/receitas/receitas.component';
 import { HistoricoComponent } from './pages/historico/historico.component';
 import { ConfiguracaoComponent } from './pages/configuracao/configuracao.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 import { DialogReceitaComponent } from './pages/receitas/dialog-receita/dialog-receita.component';
 import { DespesasComponent } from './pages/despesas/despesas.component';
 import { DialogDespesaComponent } from './pages/despesas/dialog-despesa/dialog-despesa.component';
@@ -43,6 +44,7 @@ registerLocaleData(localePt, 'pt-BR');
     ReceitasComponent,
     HistoricoComponent,
     ConfiguracaoComponent,
+    PerfilComponent,
     DialogReceitaComponent,
     DespesasComponent,
     DialogDespesaComponent

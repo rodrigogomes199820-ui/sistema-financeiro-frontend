@@ -16,6 +16,10 @@ export class LayoutComponent implements OnDestroy {
   notificacoesNaoLidas = 0;
   private readonly notificationSubscription: Subscription;
 
+  get isPerfilRoute(): boolean {
+    return this.router.url.split('?')[0].split('#')[0] === '/perfil';
+  }
+
   constructor(
     private authService: AuthService,
     private router: Router,

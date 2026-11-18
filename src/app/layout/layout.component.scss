@@ -25,10 +25,8 @@
   .notification-badge { position: absolute; top: 3px; right: 1px; display: grid; min-width: 17px; height: 17px; place-items: center; padding: 0 3px; border: 2px solid #fff; border-radius: 10px; background: #e05c52; color: #fff; font-size: 9px; font-weight: 700; line-height: 1; }
   .logout-button { display: inline-flex; height: 48px; align-items: center; gap: 6px; color: #52635a; }
   .logout-button:hover { background: #f2f6f3; }
-  .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; white-space: nowrap; }
-  .brand-mark { display: inline-flex; align-items: center; line-height: 0; color: #16834a; }
-  .brand-mark mat-icon { display: block; width: 22px; height: 22px; font-size: 22px; line-height: 22px; }
-  .brand { display: block; color: #245c42; font-size: 20px; font-weight: 700; line-height: 1.2; letter-spacing: -0.4px; }
+  .brand-lockup { position: relative; display: block; width: 128px; height: 38px; flex: 0 0 128px; overflow: hidden; }
+  .brand-lockup img { position: absolute; top: -4px; left: -6px; width: 142px; height: auto; max-width: none; }
   .spacer { flex: 1; }
   .menu-toggle:hover { background: #eff6f0; }
 }
@@ -146,7 +144,6 @@
 
 @media (max-width: 800px) {
   .navbar { height: 60px; padding: 0 14px; }
-  .navbar .brand { font-size: 18px; }
   .navbar .menu-toggle { display: none; }
   .layout-container { min-height: 100vh; padding-top: 60px; }
 
@@ -185,11 +182,14 @@
 
 @media (max-width: 480px) {
   .navbar { gap: 5px; padding: 0 8px; }
-  .navbar .brand { font-size: 16px; }
-  .navbar .brand-mark mat-icon { width: 19px; height: 19px; font-size: 19px; line-height: 19px; }
+  .navbar .brand-lockup { width: 112px; height: 34px; flex-basis: 112px; }
+  .navbar .brand-lockup img { top: -3px; left: -5px; width: 124px; }
 }
 
 @media (max-width: 600px) {
+  .navbar.profile-page-navbar { display: none; }
+  .layout-container.profile-page-active { padding-top: 0; }
+
   .navbar .notification-wrapper,
   .navbar .logout-button,
   .navbar .notification-backdrop { display: none; }

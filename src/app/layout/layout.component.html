@@ -1,4 +1,4 @@
-<mat-toolbar class="navbar">
+<mat-toolbar class="navbar" [class.profile-page-navbar]="isPerfilRoute">
   <button
     mat-icon-button
     class="menu-toggle"
@@ -10,8 +10,7 @@
   </button>
 
   <div class="brand-lockup">
-    <span class="brand-mark"><mat-icon>account_balance_wallet</mat-icon></span>
-    <span class="brand">Poupaê</span>
+    <img src="assets/brand-logo-poupae-green.png" alt="Poupaê" />
   </div>
   <span class="spacer"></span>
 
@@ -86,8 +85,8 @@
     </section>
   </div>
 
-  <a mat-icon-button disableRipple class="settings-button" routerLink="/configuracao" routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }" aria-label="Perfil e configurações" title="Perfil">
+  <a mat-icon-button disableRipple class="settings-button" routerLink="/perfil" routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Perfil" title="Perfil">
     <mat-icon>account_circle</mat-icon>
   </a>
 
@@ -105,7 +104,7 @@
   ></button>
 </mat-toolbar>
 
-<div class="layout-container" [class.sidebar-open]="menuButton">
+<div class="layout-container" [class.sidebar-open]="menuButton" [class.profile-page-active]="isPerfilRoute">
   <button
     class="sidebar-backdrop"
     *ngIf="menuButton"
