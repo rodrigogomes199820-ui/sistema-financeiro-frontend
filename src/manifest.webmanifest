@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Contô",
-  "short_name": "Contô",
-  "description": "Controle financeiro pessoal da Contô",
+  "name": "Poupaê",
+  "short_name": "Poupaê",
+  "description": "Controle financeiro pessoal",
   "theme_color": "#16a34a",
   "background_color": "#ffffff",
   "display": "standalone",
