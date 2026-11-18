@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
   }>;
 }
 
-type InstallPlatform = 'android' | 'ios' | null;
+type InstallPlatform = 'android' | 'ios' | 'desktop' | null;
 
 @Component({
   selector: 'app-install-pwa',
@@ -48,12 +48,14 @@ export class InstallPwaComponent implements OnInit {
     const installEvent = event as BeforeInstallPromptEvent;
     installEvent.preventDefault();
 
-    if (this.detectInstallPlatform() !== 'android' || this.isStandalone()) {
+    const platform = this.detectInstallPlatform();
+
+    if ((platform !== 'android' && platform !== 'desktop') || this.isStandalone()) {
       return;
     }
 
     this.deferredPrompt = installEvent;
-    this.platform = 'android';
+    this.platform = platform;
     this.showInviteIfEligible();
   }
 
@@ -65,7 +67,11 @@ export class InstallPwaComponent implements OnInit {
   }
 
   async installApp(): Promise<void> {
-    if (this.platform !== 'android' || !this.deferredPrompt || this.isInstalling) {
+    if (
+      (this.platform !== 'android' && this.platform !== 'desktop') ||
+      !this.deferredPrompt ||
+      this.isInstalling
+    ) {
       return;
     }
 
@@ -137,7 +143,7 @@ export class InstallPwaComponent implements OnInit {
       return 'android';
     }
 
-    return null;
+    return 'desktop';
   }
 
   private isStandalone(): boolean {
