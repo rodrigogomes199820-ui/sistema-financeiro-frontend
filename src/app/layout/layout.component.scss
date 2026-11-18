@@ -5,6 +5,7 @@
   left: 0;
   z-index: 50;
   display: flex;
+  align-items: center;
   height: 64px;
   gap: 8px;
   padding: 0 24px;
@@ -13,18 +14,21 @@
   color: #245c42;
 
   .menu-toggle { color: #245c42; }
-  .settings-button { color: #52635a; }
-  .settings-button:hover, .settings-button.active { background: #eff6f0; color: #16834a; }
+  .settings-button { color: #52635a; box-shadow: none !important; background: transparent !important; }
+  .settings-button:hover, .settings-button.active { background: transparent !important; color: #16834a; }
+  .settings-button { display: inline-flex; width: 48px; height: 48px; flex: 0 0 48px; align-items: center; justify-content: center; padding: 0; }
+  .settings-button mat-icon { display: block; width: 48px; height: 48px; font-size: 48px; line-height: 48px; }
+  .settings-button:focus-visible { outline: 2px solid #16834a; outline-offset: 2px; }
   .brand-lockup { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; white-space: nowrap; }
   .brand-mark { display: inline-flex; align-items: center; line-height: 0; color: #16834a; }
   .brand-mark mat-icon { display: block; width: 22px; height: 22px; font-size: 22px; line-height: 22px; }
   .brand { display: block; color: #245c42; font-size: 20px; font-weight: 700; line-height: 1.2; letter-spacing: -0.4px; }
   .spacer { flex: 1; }
-  .notification-wrapper { position: relative; display: flex; align-items: center; }
-  .notification-button { position: relative; margin-right: 4px; color: #52635a; }
+  .notification-wrapper { position: relative; display: flex; height: 48px; align-items: center; }
+  .notification-button { position: relative; display: inline-flex; height: 48px; align-items: center; justify-content: center; margin-right: 4px; color: #52635a; }
   .notification-button:hover, .menu-toggle:hover { background: #eff6f0; }
   .notification-badge { position: absolute; top: 3px; right: 1px; display: grid; min-width: 17px; height: 17px; place-items: center; padding: 0 3px; border: 2px solid #fff; border-radius: 10px; background: #e05c52; color: #fff; font-size: 9px; font-weight: 700; line-height: 1; }
-  .logout-button { display: inline-flex; align-items: center; gap: 6px; color: #52635a; }
+  .logout-button { display: inline-flex; height: 48px; align-items: center; gap: 6px; color: #52635a; }
   .logout-button:hover { background: #f2f6f3; }
 }
 

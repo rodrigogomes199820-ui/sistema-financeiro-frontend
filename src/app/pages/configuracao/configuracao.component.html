@@ -10,6 +10,17 @@
   <p class="carregando" *ngIf="carregandoPerfil">Carregando seus dados...</p>
 
   <ng-container *ngIf="!carregandoPerfil">
+    <section class="profile-overview" aria-label="Perfil do usuário">
+      <span class="profile-avatar" aria-hidden="true">
+        <mat-icon>person</mat-icon>
+      </span>
+      <div class="profile-overview-text">
+        <span class="profile-label">MEU PERFIL</span>
+        <h2>{{ perfilForm.get('name')?.value || 'Usuário' }}</h2>
+        <p>{{ perfilForm.get('email')?.value }}</p>
+      </div>
+    </section>
+
     <section class="config-card">
       <header class="card-header">
         <span class="card-icon"><mat-icon>person_outline</mat-icon></span>

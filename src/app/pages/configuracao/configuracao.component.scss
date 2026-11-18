@@ -14,6 +14,35 @@
 .eyebrow { color: #16834a; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; }
 .carregando { padding: 24px; color: #718078; text-align: center; }
 
+.profile-overview {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 22px 28px;
+  border: 1px solid #dfeae2;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #fff 45%, #f1f8f3 100%);
+}
+
+.profile-avatar {
+  display: grid;
+  width: 128px;
+  height: 128px;
+  flex: 0 0 128px;
+  place-items: center;
+  border: 1px solid #cfe4d5;
+  border-radius: 50%;
+  background: #eaf4ec;
+  color: #16834a;
+}
+
+.profile-avatar mat-icon { width: 70px; height: 70px; font-size: 70px; }
+.profile-overview-text { min-width: 0; }
+.profile-label { color: #16834a; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+.profile-overview h2 { overflow-wrap: anywhere; margin: 4px 0; color: #172b22; font-size: 20px; font-weight: 600; }
+.profile-overview p { overflow-wrap: anywhere; margin: 0; color: #718078; font-size: 13px; }
+
 .config-card {
   margin-bottom: 18px;
   padding: 24px 28px;
@@ -43,7 +72,12 @@
 
 @media (max-width: 700px) {
   .container { padding: 14px; }
-  .page-header, .config-card { padding: 20px; }
+  .page-header, .config-card, .profile-overview { padding: 18px; }
+  .profile-overview { gap: 14px; }
+  .profile-avatar { width: 104px; height: 104px; flex-basis: 104px; }
+  .profile-avatar mat-icon { width: 58px; height: 58px; font-size: 58px; }
+  .profile-overview h2 { font-size: 18px; }
+  .profile-overview p { font-size: 12px; }
   .form-grid { grid-template-columns: 1fr; }
   .campo-senha-atual { max-width: 100%; }
   .form-actions { justify-content: stretch; }
