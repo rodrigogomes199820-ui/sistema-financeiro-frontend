@@ -85,7 +85,7 @@
               [attr.title]="'Despesas em ' + mes.rotulo + ': ' + (mes.despesas | currency:'BRL':'symbol':'1.2-2':'pt-BR')"
             ></span>
           </div>
-          <span class="rotulo-mes">
+          <span class="rotulo-mes" >
             {{ mes.rotulo }}
             <small>{{ mes.ano }}</small>
             <small *ngIf="mes.fechado" class="resultado-mes" [class.saldo-positivo]="mes.saldo >= 0" [class.saldo-negativo]="mes.saldo < 0"
