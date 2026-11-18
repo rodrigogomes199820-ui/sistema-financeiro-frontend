@@ -63,24 +63,42 @@
           <tr>
             <th>Movimentação</th>
             <th>Tipo</th>
-            <th>Data</th>
+            <th>Data / período</th>
             <th class="valor-heading">Valor</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of movimentacoesFiltradas">
+          <ng-container *ngFor="let item of movimentacoesFiltradas">
+          <tr>
             <td class="descricao">
               <span class="tipo-icone" [class.icone-receita]="item.tipo === 'receita'" [class.icone-despesa]="item.tipo === 'despesa'">
                 <mat-icon>{{ item.tipo === 'receita' ? 'south_west' : 'north_east' }}</mat-icon>
               </span>
               <strong>{{ item.titulo }}</strong>
+              <button *ngIf="item.parcelas?.length" class="ver-detalhes" type="button"
+                [attr.aria-expanded]="detalheAbertoId === item.id" (click)="alternarDetalhes(item.id)">
+                {{ detalheAbertoId === item.id ? 'Ocultar' : 'Ver detalhes' }}
+              </button>
             </td>
             <td><span class="tipo-label" [class.receita]="item.tipo === 'receita'" [class.despesa]="item.tipo === 'despesa'">{{ item.descricao }}</span></td>
-            <td>{{ item.data | date:'dd/MM/yyyy':'UTC' }}</td>
+            <td>{{ item.periodo || (item.data | date:'dd/MM/yyyy':'UTC') }}</td>
             <td class="valor" [class.receita]="item.tipo === 'receita'" [class.despesa]="item.tipo === 'despesa'">
               {{ item.tipo === 'receita' ? '+' : '−' }} {{ item.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
             </td>
           </tr>
+          <tr *ngIf="detalheAbertoId === item.id && item.parcelas?.length" class="linha-detalhes">
+            <td colspan="4">
+              <div class="lista-detalhes">
+                <strong>Parcelas</strong>
+                <div class="parcela-detalhe" *ngFor="let parcela of item.parcelas">
+                  <span>{{ parcela.numero }}ª parcela</span>
+                  <span>{{ parcela.data | date:'dd/MM/yyyy':'UTC' }}</span>
+                  <strong>{{ parcela.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</strong>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

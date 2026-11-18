@@ -12,6 +12,10 @@ import { DialogReceitaComponent } from './dialog-receita/dialog-receita.componen
 export class ReceitasComponent implements OnInit {
   receitas: IReceita[] = [];
 
+  get salarioCadastrado(): boolean {
+    return this.receitas.some((receita) => receita.categoria === 'salario');
+  }
+
   constructor(
     private receitaService: ReceitasService,
     private notificationService: NotificationService,
@@ -23,6 +27,10 @@ export class ReceitasComponent implements OnInit {
   }
 
   adicionarReceita(): void {
+    if (this.salarioCadastrado) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(DialogReceitaComponent, {
       width: '500px',
       maxWidth: 'calc(100vw - 24px)',

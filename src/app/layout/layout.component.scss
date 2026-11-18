@@ -149,7 +149,7 @@
 
   .sidebar, .sidebar-backdrop { display: none; }
   .layout-container.sidebar-open .main-content { margin-left: 0; }
-  .main-content { padding: 0 0 78px; }
+  .main-content { padding: 0 0 calc(72px + env(safe-area-inset-bottom)); }
   .mobile-bottom-nav {
     position: fixed;
     right: 0;
@@ -187,7 +187,6 @@
   .navbar .notification-button { margin-right: 0; }
   .navbar .logout-button { min-width: 44px; padding: 0 8px; }
   .navbar .logout-button span { display: none; }
-  .main-content { padding: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

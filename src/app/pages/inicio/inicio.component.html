@@ -63,7 +63,7 @@
       <header class="secao-header">
         <div>
           <h2 id="grafico-titulo">Receitas e despesas</h2>
-          <p>Últimos seis meses e projeção para os próximos seis.</p>
+          <p>O resultado aparece quando o mês fecha e não acumula para o seguinte.</p>
         </div>
         <div class="legenda-grafico" aria-label="Legenda do gráfico">
           <span><i class="legenda-receita"></i>Receitas</span>
@@ -85,7 +85,15 @@
               [attr.title]="'Despesas em ' + mes.rotulo + ': ' + (mes.despesas | currency:'BRL':'symbol':'1.2-2':'pt-BR')"
             ></span>
           </div>
-          <span class="rotulo-mes">{{ mes.rotulo }}<small>{{ mes.ano }}</small></span>
+          <span class="rotulo-mes">
+            {{ mes.rotulo }}
+            <small>{{ mes.ano }}</small>
+            <small *ngIf="mes.fechado" class="resultado-mes" [class.saldo-positivo]="mes.saldo >= 0" [class.saldo-negativo]="mes.saldo < 0"
+              [attr.title]="'Resultado do mês: ' + (mes.saldo | currency:'BRL':'symbol':'1.2-2':'pt-BR')">
+              {{ mes.saldo | currency:'BRL':'symbol':'1.0-0':'pt-BR' }}
+            </small>
+            <small *ngIf="!mes.fechado" class="status-mes">{{ mes.projetado ? 'Previsto' : 'Em andamento' }}</small>
+          </span>
         </div>
       </div>
     </section>

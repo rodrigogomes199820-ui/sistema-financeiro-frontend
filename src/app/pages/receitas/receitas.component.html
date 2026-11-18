@@ -4,9 +4,12 @@
       <h1>Receitas</h1>
       <p>Cadastre seu salário e outras entradas de dinheiro.</p>
     </div>
-    <button mat-raised-button color="primary" type="button" (click)="adicionarReceita()">
+    <button mat-raised-button color="primary" type="button" [disabled]="salarioCadastrado"
+      [attr.title]="salarioCadastrado ? 'Edite o salário cadastrado para atualizar o valor mensal.' : null"
+      (click)="adicionarReceita()">
       Nova receita
     </button>
+    <small class="aviso-salario" *ngIf="salarioCadastrado">Salário já cadastrado. Edite o lançamento existente para atualizá-lo.</small>
   </header>
 
   <div class="content">

@@ -26,20 +26,27 @@
 .busca input::placeholder { color: #8a9890; }
 .filtro-tipo { width: 190px; }
 .filtro-data { width: 145px; }
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; text-align: left; }
+.table-wrapper { overflow: hidden; }
+table { width: 100%; table-layout: fixed; border-collapse: collapse; text-align: left; }
 th, td { padding: 14px 12px; border-bottom: 1px solid #edf1ee; }
 th { color: #718078; font-size: 11px; font-weight: 600; text-transform: uppercase; }
 td { color: #52635a; font-size: 13px; }
 tbody tr:last-child td { border-bottom: 0; }
-.descricao { display: flex; align-items: center; gap: 11px; min-width: 220px; }
+.descricao { display: flex; min-width: 0; align-items: center; gap: 11px; }
 .descricao strong { overflow: hidden; color: #263b30; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.ver-detalhes { flex: 0 0 auto; padding: 4px 0; border: 0; background: transparent; color: #16834a; cursor: pointer; font: inherit; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.linha-detalhes td { padding-top: 0; background: #fbfcfb; }
+.lista-detalhes { padding: 6px 12px 10px; border-left: 3px solid #d9eddf; }
+.lista-detalhes > strong { display: block; margin-bottom: 6px; color: #52635a; font-size: 12px; }
+.parcela-detalhe { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 12px; padding: 8px 0; border-top: 1px solid #edf1ee; color: #52635a; font-size: 12px; }
+.parcela-detalhe strong { color: #bd3c3c; font-weight: 600; white-space: nowrap; }
 .tipo-icone { display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border-radius: 10px; }
 .tipo-icone mat-icon { width: 19px; height: 19px; font-size: 19px; }
 .icone-receita { background: #e7f7e9; color: #16834a; }
 .icone-despesa { background: #fff0ee; color: #bd3c3c; }
 .tipo-label { font-size: 12px; }
 .valor-heading, .valor { text-align: right; white-space: nowrap; }
+.table-wrapper td:nth-child(3) { min-width: 128px; white-space: nowrap; }
 .valor { font-weight: 600; }
 .carregando { padding: 24px; color: #718078; text-align: center; }
 .estado-vazio { display: flex; min-height: 220px; flex-direction: column; align-items: center; justify-content: center; gap: 9px; color: #718078; text-align: center; }
@@ -57,5 +64,23 @@ tbody tr:last-child td { border-bottom: 0; }
   .filtro-tipo { width: 100%; }
   .filtro-data { flex: 1; width: calc(50% - 8px); }
   .historico-card { padding: 16px 12px; }
-  th, td { padding: 12px 8px; }
+  table, tbody { display: block; }
+  thead { display: none; }
+  tbody tr:not(.linha-detalhes) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #edf1ee;
+  }
+  tbody tr:not(.linha-detalhes) td { min-width: 0; padding: 4px 8px; border: 0; }
+  tbody tr:not(.linha-detalhes) .descricao { grid-column: 1 / -1; }
+  tbody tr:not(.linha-detalhes) td:nth-child(2) { grid-column: 1; grid-row: 2; }
+  tbody tr:not(.linha-detalhes) td:nth-child(3) { grid-column: 1; grid-row: 3; min-width: 0; font-size: 11px; }
+  tbody tr:not(.linha-detalhes) td:nth-child(4) { grid-column: 2; grid-row: 2 / span 2; align-self: center; text-align: right; }
+  tbody tr.linha-detalhes { display: block; }
+  tbody tr.linha-detalhes td { display: block; padding: 0 8px 10px; border: 0; }
+  .parcela-detalhe { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; }
+  .parcela-detalhe span:nth-child(2) { grid-column: 1; grid-row: 2; color: #718078; font-size: 11px; }
+  .parcela-detalhe strong { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }

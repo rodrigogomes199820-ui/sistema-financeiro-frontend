@@ -194,3 +194,10 @@
   background: #16834a;
   color: #fff;
 }
+
+.header button:disabled { background: #dce5df; color: #718078; }
+.aviso-salario { align-self: center; color: #718078; font-size: 12px; }
+
+@media (max-width: 650px) {
+  .aviso-salario { align-self: flex-start; }
+}
