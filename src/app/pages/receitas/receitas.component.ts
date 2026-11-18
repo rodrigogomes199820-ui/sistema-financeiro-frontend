@@ -1,5 +1,7 @@
+
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { finalize } from 'rxjs/operators';
 import { ReceitasService, IReceita } from './receitas.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { DialogReceitaComponent } from './dialog-receita/dialog-receita.component';
@@ -11,9 +13,12 @@ import { DialogReceitaComponent } from './dialog-receita/dialog-receita.componen
 })
 export class ReceitasComponent implements OnInit {
   receitas: IReceita[] = [];
+  carregandoReceitas = true;
 
   get salarioCadastrado(): boolean {
-    return this.receitas.some((receita) => receita.categoria === 'salario');
+    return this.receitas.some(
+      (receita) => receita.categoria === 'salario'
+    );
   }
 
   constructor(
@@ -27,7 +32,7 @@ export class ReceitasComponent implements OnInit {
   }
 
   adicionarReceita(): void {
-    if (this.salarioCadastrado) {
+    if (this.carregandoReceitas || this.salarioCadastrado) {
       return;
     }
 
@@ -59,14 +64,22 @@ export class ReceitasComponent implements OnInit {
   }
 
   buscarReceitas(): void {
-    this.receitaService.getAll().subscribe({
-      next: (response) => {
-        this.receitas = response.receitas;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar receitas:', error);
-      }
-    });
+    this.carregandoReceitas = true;
+
+    this.receitaService.getAll()
+      .pipe(
+        finalize(() => {
+          this.carregandoReceitas = false;
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.receitas = response.receitas ?? [];
+        },
+        error: (error) => {
+          console.error('Erro ao buscar receitas:', error);
+        }
+      });
   }
 
   editarReceita(item: IReceita): void {
